@@ -3,9 +3,7 @@ package com.example.time.box.service;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignInRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
-import com.example.time.box.exception.EmailAlreadyRegisteredException;
-import com.example.time.box.exception.EmailisNotRegisteredException;
-import com.example.time.box.exception.IncorrectPasswordException;
+import com.example.time.box.exception.*;
 import com.example.time.box.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -23,16 +21,16 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //TODO: add spring security
+
     public Optional<UserEntity> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    // TODO: Add methods to interact with the user repository
-
     public Boolean verifyPassword(Long id, String password){
         Optional<UserEntity> user = userRepository.findById(id);
         if(password == null){
-            throw new com.example.time.box.exception.PasswordIsNullException();
+            throw new PasswordIsNullException();
         }
         return user.map(it-> passwordEncoder.matches(password,it.getHashedPassword())).orElse(false);
     }

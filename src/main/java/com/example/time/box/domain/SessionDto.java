@@ -15,5 +15,5 @@ public class SessionDto {
     private Integer id;
     private String sessionKey;
     private OffsetDateTime expiredAt;
-    private Integer userId;
+    private Long userId;
 }

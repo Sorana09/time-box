@@ -13,6 +13,6 @@ public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
    SessionEntity save(SessionEntity sessionEntity);
 
     void deleteById(Long id);
-    void deleteBySessionKey(Long userId);
+    //void deleteBySessionKey(Long userId);
 
 }

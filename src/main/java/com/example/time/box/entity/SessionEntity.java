@@ -28,5 +28,5 @@ public class SessionEntity {
     private OffsetDateTime expiredAt;
 
     @Column(nullable = false)
-    private Integer userId;
+    private Long userId;
 }
