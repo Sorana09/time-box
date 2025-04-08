@@ -10,6 +10,9 @@ import java.util.List;
 public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
     List<SessionEntity> findByUserId(Long userId);
 
+   SessionEntity save(SessionEntity sessionEntity);
 
+    void deleteById(Long id);
+    void deleteBySessionKey(Long userId);
 
 }

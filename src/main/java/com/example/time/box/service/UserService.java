@@ -9,6 +9,7 @@ import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -19,12 +20,22 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Optional<UserEntity> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     // TODO: Add methods to interact with the user repository
+
+    public Boolean verifyPassword(Long id, String password){
+        Optional<UserEntity> user = userRepository.findById(id);
+        if(password == null){
+            throw new com.example.time.box.exception.PasswordIsNullException();
+        }
+        return user.map(it-> passwordEncoder.matches(password,it.getHashedPassword())).orElse(false);
+    }
 
     public boolean signUp(final UserSignUpRequest userSignUpRequest) throws Exception {
         if(userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()){
@@ -53,6 +64,9 @@ public class UserService {
 
         return userEntity;
 
+    }
+    public UserEntity getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public List<UserEntity> getAllUsers() {
