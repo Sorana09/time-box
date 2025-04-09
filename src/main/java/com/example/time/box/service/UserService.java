@@ -5,6 +5,8 @@ import com.example.time.box.entity.request.UserSignInRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
 import com.example.time.box.exception.*;
 import com.example.time.box.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,13 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    //TODO: add spring security
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     public Optional<UserEntity> findByEmail(String email) {
         return userRepository.findByEmail(email);

@@ -8,7 +8,10 @@ import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.exception.TooManySessionsException;
 import com.example.time.box.repository.SessionRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -19,12 +22,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SessionService {
-    @Autowired
-    private SessionRepository sessionRepository;
-
-    @Autowired
-    private UserService userService;
+    private final SessionRepository sessionRepository;
+    private final UserService userService;
 
     public List<SessionEntity> find(Long userId, Boolean active){
         List<SessionEntity> sessionEntities = sessionRepository.findByUserId(userId);
