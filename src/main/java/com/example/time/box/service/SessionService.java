@@ -8,10 +8,8 @@ import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.exception.TooManySessionsException;
 import com.example.time.box.repository.SessionRepository;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -41,6 +39,13 @@ public class SessionService {
 
     public static Boolean isExpired(SessionEntity sessionEntity) {
         return sessionEntity.getExpiredAt().isBefore(OffsetDateTime.now(ZoneOffset.UTC));
+    }
+
+    public List<SessionEntity> getActiveSessions(){
+        List<SessionEntity> sessionEntities = sessionRepository.findAll();
+        return sessionEntities.stream()
+                .filter(sessionEntity -> !isExpired(sessionEntity))
+                .toList();
     }
 
     public Optional<SessionEntity> createSession(LoginRequest loginRequest) {
@@ -73,10 +78,15 @@ public class SessionService {
         return Optional.of(sessionEntity);
     }
 
+    public Optional<SessionEntity> getSessionBySessionKey(String sessionKey) {
+        return sessionRepository.findBySessionKey(sessionKey);
+    }
+
     public void deleteSessionById(Long id) {
         sessionRepository.deleteById(id);
     }
-//    public void deleteSessionBySessionKey(Long userId) {
-//        sessionRepository.deleteBySessionKey(userId);
-//    }
+
+    public void deleteSessionBySessionKey(String sessionKey) {
+        sessionRepository.deleteBySessionKey(sessionKey);
+    }
 }

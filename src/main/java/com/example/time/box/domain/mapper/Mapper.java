@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Mapper {
 
-    public SessionDto mapper(SessionEntity sessionEntity) {
+    public static SessionDto mapper(SessionEntity sessionEntity) {
         return SessionDto.builder()
                 .id(sessionEntity.getId())
                 .userId(sessionEntity.getUserId())
@@ -18,7 +18,7 @@ public class Mapper {
                 .build();
     }
 
-    public UserDto mapper(UserEntity userEntity) {
+    public static UserDto mapper(UserEntity userEntity) {
         return UserDto.builder()
                 .id(userEntity.getId())
                 .email(userEntity.getEmail())

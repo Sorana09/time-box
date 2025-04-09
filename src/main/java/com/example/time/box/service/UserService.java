@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +37,13 @@ public class UserService {
         return user.map(it-> passwordEncoder.matches(password,it.getHashedPassword())).orElse(false);
     }
 
-    public boolean signUp(final UserSignUpRequest userSignUpRequest) throws Exception {
+    public boolean signUp(final UserSignUpRequest userSignUpRequest)  {
         if(userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()){
             throw new EmailAlreadyRegisteredException();
         }
         UserEntity userEntity = UserEntity.builder()
                 .email(userSignUpRequest.getEmail())
-                .hashedPassword(userSignUpRequest.getPassword())
+                .hashedPassword(passwordEncoder.encode(userSignUpRequest.getPassword()))
                 .firstName(userSignUpRequest.getFirstName())
                 .lastName(userSignUpRequest.getLastName())
                 .createdAt(OffsetDateTime.now())
