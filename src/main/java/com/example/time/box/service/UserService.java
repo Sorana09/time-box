@@ -37,7 +37,7 @@ public class UserService {
         return user.map(it-> passwordEncoder.matches(password,it.getHashedPassword())).orElse(false);
     }
 
-    public boolean signUp(final UserSignUpRequest userSignUpRequest)  {
+    public UserEntity signUp(final UserSignUpRequest userSignUpRequest)  {
         if(userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()){
             throw new EmailAlreadyRegisteredException();
         }
@@ -49,7 +49,7 @@ public class UserService {
                 .createdAt(OffsetDateTime.now())
                 .build();
 
-        return userEntity.getId() > 0;
+        return userRepository.save(userEntity);
     }
 
     public UserEntity signIn(final UserSignInRequest userSignInRequest) {

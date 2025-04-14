@@ -57,11 +57,11 @@ public class SessionService {
 
         UserEntity user = userEntity.get();
 
-        if(loginRequest.getHashedPassword() == null) {
+        if(loginRequest.getPassword() == null) {
             throw new PasswordIsNullException();
         }
 
-        if(!userService.verifyPassword(user.getId(), loginRequest.getHashedPassword())) {
+        if(!userService.verifyPassword(user.getId(), loginRequest.getPassword())) {
             throw new IncorrectPasswordException();
         }
         if(find(user.getId(), true).size() >= 3) {

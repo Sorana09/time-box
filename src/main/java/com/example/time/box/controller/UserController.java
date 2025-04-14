@@ -12,6 +12,8 @@ import com.example.time.box.service.UserService;
 
 import java.util.List;
 
+import static com.example.time.box.domain.mapper.Mapper.mapper;
+
 @RequestMapping("/users")
 @RestController
 @RequiredArgsConstructor
@@ -20,19 +22,19 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers().stream().map(it -> Mapper.mapper(it)).toList();
+        List<UserDto> users = userService.getAllUsers().stream().map(it -> mapper(it)).toList();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(Long id){
-        UserDto user = Mapper.mapper(userService.getUserById(id));
+        UserDto user = mapper(userService.getUserById(id));
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public Boolean signUp(UserSignUpRequest userSignUpRequest){
-        return userService.signUp(userSignUpRequest);
+    public ResponseEntity<UserDto> signUp(@RequestBody  UserSignUpRequest userSignUpRequest){
+        return  ResponseEntity.ok().body(mapper(userService.signUp(userSignUpRequest)));
     }
 
     @DeleteMapping

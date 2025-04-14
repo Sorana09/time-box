@@ -9,6 +9,6 @@ import lombok.Data;
 @Builder
 public class LoginRequest {
     private String email;
-    private String hashedPassword;
+    private String password;
 
 }
