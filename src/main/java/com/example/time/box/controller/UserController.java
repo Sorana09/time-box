@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(Long id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
         UserDto user = mapper(userService.getUserById(id));
         return ResponseEntity.ok(user);
     }
@@ -37,8 +37,8 @@ public class UserController {
         return  ResponseEntity.ok().body(mapper(userService.signUp(userSignUpRequest)));
     }
 
-    @DeleteMapping
-    public void deleteUser(Long id){
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
         userService.deleteUserById(id);
     }
 
