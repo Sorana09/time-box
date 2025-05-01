@@ -41,7 +41,8 @@ public class Mapper {
                 .endTime(subjectEntity.getEndTime())
                 .numberOfSessions(subjectEntity.getNumberOfSessions())
                 .timeAllotted(subjectEntity.getTimeAllotted())
-                .userId(subjectEntity.getUser().getId())
+                .userId(subjectEntity.getUserId())
+                .running(subjectEntity.getRunning())
                 .build();
     }
 

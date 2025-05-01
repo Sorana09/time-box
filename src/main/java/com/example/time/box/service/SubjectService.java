@@ -66,8 +66,8 @@ public class SubjectService {
     public void durationForAnSubject(Long id){
         SubjectEntity subject = subjectRepository.findById(id).orElseThrow(()-> new EntityNotFoundException());
         if(subject.getEndTime() == null  || subject.getStartTime() == null)
-            subject.setTimeAllotted(Duration.ZERO);
-        subject.setTimeAllotted(Duration.between(subject.getStartTime(), subject.getEndTime()));
+            subject.setTimeAllotted(Duration.ZERO.getSeconds());
+        subject.setTimeAllotted(Duration.between(subject.getStartTime(), subject.getEndTime()).getSeconds());
         subjectRepository.save(subject);
     }
 

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
@@ -42,7 +43,7 @@ public class SubjectEntity {
     private Integer numberOfSessions = 0;
 
     @Column
-    private Duration timeAllotted;
+    private Long timeAllotted;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
