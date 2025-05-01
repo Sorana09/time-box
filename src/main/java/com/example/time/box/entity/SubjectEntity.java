@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 
 import static jakarta.persistence.GenerationType.*;
@@ -41,7 +42,7 @@ public class SubjectEntity {
     private Integer numberOfSessions = 0;
 
     @Column
-    private OffsetDateTime timeAllotted;
+    private Duration timeAllotted;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

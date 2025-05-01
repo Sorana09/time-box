@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -23,6 +24,8 @@ public class SubjectDto {
     private String description;
     private OffsetDateTime startTime;
     private OffsetDateTime endTime;
+    private Integer numberOfSessions;
+    private Duration timeAllotted;
     private Long userId;
 
 }

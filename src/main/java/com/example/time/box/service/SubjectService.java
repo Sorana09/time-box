@@ -63,11 +63,12 @@ public class SubjectService {
         subject.setRunning(true);
         subjectRepository.save(subject);
     }
-    public Duration durationForAnSubject(Long id){
+    public void durationForAnSubject(Long id){
         SubjectEntity subject = subjectRepository.findById(id).orElseThrow(()-> new EntityNotFoundException());
         if(subject.getEndTime() == null  || subject.getStartTime() == null)
-            return Duration.ZERO;
-        return Duration.between(subject.getStartTime(), subject.getEndTime());
+            subject.setTimeAllotted(Duration.ZERO);
+        subject.setTimeAllotted(Duration.between(subject.getStartTime(), subject.getEndTime()));
+        subjectRepository.save(subject);
     }
 
     public void deleteById(Long id) {

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
-    SubjectEntity save(SubjectEntity subjectEntity);
     void deleteById(Long id);
     List<SubjectEntity> findAll();
     List<SubjectEntity> findByUserId(Long userId);

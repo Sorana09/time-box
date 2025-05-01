@@ -39,6 +39,8 @@ public class Mapper {
                 .description(subjectEntity.getDescription())
                 .startTime(subjectEntity.getStartTime())
                 .endTime(subjectEntity.getEndTime())
+                .numberOfSessions(subjectEntity.getNumberOfSessions())
+                .timeAllotted(subjectEntity.getTimeAllotted())
                 .userId(subjectEntity.getUser().getId())
                 .build();
     }
