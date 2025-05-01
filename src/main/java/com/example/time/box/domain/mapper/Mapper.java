@@ -1,8 +1,10 @@
 package com.example.time.box.domain.mapper;
 
 import com.example.time.box.domain.SessionDto;
+import com.example.time.box.domain.SubjectDto;
 import com.example.time.box.domain.UserDto;
 import com.example.time.box.entity.SessionEntity;
+import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,17 @@ public class Mapper {
                 .hashedPassword(userEntity.getHashedPassword())
                 .lastName(userEntity.getLastName())
                 .updatedAt(userEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static SubjectDto mapper(SubjectEntity subjectEntity) {
+        return SubjectDto.builder()
+                .id(subjectEntity.getId())
+                .name(subjectEntity.getName())
+                .description(subjectEntity.getDescription())
+                .startTime(subjectEntity.getStartTime())
+                .endTime(subjectEntity.getEndTime())
+                .userId(subjectEntity.getUser().getId())
                 .build();
     }
 
