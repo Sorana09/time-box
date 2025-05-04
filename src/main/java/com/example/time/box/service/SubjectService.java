@@ -60,15 +60,23 @@ public class SubjectService {
         SubjectEntity subject = subjectRepository.findById(id).orElseThrow(()-> new EntityNotFoundException());
 
         subject.setEndTime(OffsetDateTime.now());
-        subject.setRunning(true);
+        subject.setRunning(false);
         subjectRepository.save(subject);
     }
-    public void durationForAnSubject(Long id){
-        SubjectEntity subject = subjectRepository.findById(id).orElseThrow(()-> new EntityNotFoundException());
-        if(subject.getEndTime() == null  || subject.getStartTime() == null)
-            subject.setTimeAllotted(Duration.ZERO.getSeconds());
-        subject.setTimeAllotted(Duration.between(subject.getStartTime(), subject.getEndTime()).getSeconds());
-        subjectRepository.save(subject);
+
+    public Long durationForAnSubject(Long id) {
+        SubjectEntity subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException());
+
+        if (subject.getStartTime() != null && subject.getEndTime() != null) {
+            Long sessionDuration = Duration.between(subject.getStartTime(), subject.getEndTime()).getSeconds();
+            subject.setTimeAllotted((subject.getTimeAllotted() != null ? subject.getTimeAllotted() :0L) + sessionDuration);
+            subject.setStartTime(null);
+            subject.setEndTime(null);
+            subjectRepository.save(subject);
+        }
+
+        return subject.getTimeAllotted() != null ? subject.getTimeAllotted() : 0L;
     }
 
     public void deleteById(Long id) {

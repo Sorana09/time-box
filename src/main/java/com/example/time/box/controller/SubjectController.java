@@ -25,6 +25,11 @@ public class SubjectController {
                 .toList());
     }
 
+    @GetMapping("/duration/{id}")
+    public ResponseEntity<Long> getDurationTime(@PathVariable Long id) {
+        return ResponseEntity.ok().body(subjectService.durationForAnSubject(id));
+    }
+
     @PostMapping
     public ResponseEntity<SubjectDto> createSubject(@RequestBody SubjectCreateRequest subjectCreateRequest){
         return ResponseEntity.ok().body(mapper(subjectService.save(subjectCreateRequest)));
