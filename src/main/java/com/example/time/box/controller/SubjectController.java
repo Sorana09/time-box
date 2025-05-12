@@ -25,28 +25,18 @@ public class SubjectController {
                 .toList());
     }
 
-    @GetMapping("/duration/{id}")
-    public ResponseEntity<Long> getDurationTime(@PathVariable Long id) {
-        return ResponseEntity.ok().body(subjectService.durationForAnSubject(id));
+    @GetMapping("/number-of-sessions/{id}")
+    public ResponseEntity<Integer> getNumberOfSessions(@PathVariable Long id) {
+        return ResponseEntity.ok().body(subjectService.getNumberOfSessionsForAnSubject(id));
     }
 
     @PostMapping
-    public ResponseEntity<SubjectDto> createSubject(@RequestBody SubjectCreateRequest subjectCreateRequest){
+    public ResponseEntity<SubjectDto> createSubject(@RequestBody SubjectCreateRequest subjectCreateRequest) {
         return ResponseEntity.ok().body(mapper(subjectService.save(subjectCreateRequest)));
     }
 
-    @PutMapping("/{id}/start")
-    public void startSubjectTimer(@PathVariable Long id){
-        subjectService.startSubjectTimer(id);
-    }
-
-    @PutMapping("/{id}/end")
-    public void endSubjectTimer(@PathVariable Long id){
-        subjectService.stopSubjectTimer(id);
-    }
-
     @DeleteMapping("/{id}")
-    public void deleteSubject(@PathVariable Long id){
+    public void deleteSubject(@PathVariable Long id) {
         subjectService.deleteById(id);
     }
 }

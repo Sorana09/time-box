@@ -1,23 +1,22 @@
 package com.example.time.box.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
 
-@Data
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
-public class SubjectDto {
-
+@Builder
+@Data
+public class SubjectSessionDto {
     private Long id;
-    private String name;
-    private String description;
-    private Long userId;
+    private Long subjectId;
+    private OffsetDateTime startTime;
+    private OffsetDateTime endTime;
+    private Boolean running;
     private Long timeAllotted;
-    private Integer numberOfSessions;
-
-
 }

@@ -10,9 +10,11 @@ import java.util.Optional;
 @Repository
 public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
     List<SessionEntity> findByUserId(Long userId);
-   Optional<SessionEntity>  findBySessionKey(String sessionKey);
+
+    Optional<SessionEntity> findBySessionKey(String sessionKey);
 
     void deleteById(Long id);
+
     void deleteBySessionKey(String sessionKey);
 
 }

@@ -3,13 +3,12 @@ package com.example.time.box.service;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignInRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
-import com.example.time.box.exception.*;
+import com.example.time.box.exception.EmailAlreadyRegisteredException;
+import com.example.time.box.exception.EmailisNotRegisteredException;
+import com.example.time.box.exception.IncorrectPasswordException;
+import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +28,16 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Boolean verifyPassword(Long id, String password){
+    public Boolean verifyPassword(Long id, String password) {
         Optional<UserEntity> user = userRepository.findById(id);
-        if(password == null){
+        if (password == null) {
             throw new PasswordIsNullException();
         }
-        return user.map(it-> passwordEncoder.matches(password,it.getHashedPassword())).orElse(false);
+        return user.map(it -> passwordEncoder.matches(password, it.getHashedPassword())).orElse(false);
     }
 
-    public UserEntity signUp(final UserSignUpRequest userSignUpRequest)  {
-        if(userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()){
+    public UserEntity signUp(final UserSignUpRequest userSignUpRequest) {
+        if (userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()) {
             throw new EmailAlreadyRegisteredException();
         }
         UserEntity userEntity = UserEntity.builder()
@@ -53,18 +52,19 @@ public class UserService {
     }
 
     public UserEntity signIn(final UserSignInRequest userSignInRequest) {
-        if(userRepository.findByEmail(userSignInRequest.getEmail()).isEmpty()){
+        if (userRepository.findByEmail(userSignInRequest.getEmail()).isEmpty()) {
             throw new EmailisNotRegisteredException();
         }
         UserEntity userEntity = userRepository.findByEmail(userSignInRequest.getEmail()).get();
 
-        if(!userEntity.getHashedPassword().equals(userSignInRequest.getPassword())){
+        if (!userEntity.getHashedPassword().equals(userSignInRequest.getPassword())) {
             throw new IncorrectPasswordException();
         }
 
         return userEntity;
 
     }
+
     public UserEntity getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }

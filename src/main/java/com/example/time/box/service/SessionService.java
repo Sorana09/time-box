@@ -8,7 +8,6 @@ import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.exception.TooManySessionsException;
 import com.example.time.box.repository.SessionRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +24,12 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserService userService;
 
-    public List<SessionEntity> find(Long userId, Boolean active){
+    public List<SessionEntity> find(Long userId, Boolean active) {
         List<SessionEntity> sessionEntities = sessionRepository.findByUserId(userId);
-        if(!active){
+        if (!active) {
             return sessionEntities;
         }
-        if(active){
+        if (active) {
             return sessionEntities.stream().filter(sessionEntity1 -> !isExpired(sessionEntity1)).collect(Collectors.toList());
 
         }
@@ -41,7 +40,7 @@ public class SessionService {
         return sessionEntity.getExpiredAt().isBefore(OffsetDateTime.now(ZoneOffset.UTC));
     }
 
-    public List<SessionEntity> getActiveSessions(){
+    public List<SessionEntity> getActiveSessions() {
         List<SessionEntity> sessionEntities = sessionRepository.findAll();
         return sessionEntities.stream()
                 .filter(sessionEntity -> !isExpired(sessionEntity))
@@ -51,20 +50,20 @@ public class SessionService {
     public Optional<SessionEntity> createSession(LoginRequest loginRequest) {
         Optional<UserEntity> userEntity = userService.findByEmail(loginRequest.getEmail());
 
-        if(userEntity.isEmpty()){
+        if (userEntity.isEmpty()) {
             throw new EntityNotFoundException();
         }
 
         UserEntity user = userEntity.get();
 
-        if(loginRequest.getPassword() == null) {
+        if (loginRequest.getPassword() == null) {
             throw new PasswordIsNullException();
         }
 
-        if(!userService.verifyPassword(user.getId(), loginRequest.getPassword())) {
+        if (!userService.verifyPassword(user.getId(), loginRequest.getPassword())) {
             throw new IncorrectPasswordException();
         }
-        if(find(user.getId(), true).size() >= 3) {
+        if (find(user.getId(), true).size() >= 3) {
             throw new TooManySessionsException();
         }
 

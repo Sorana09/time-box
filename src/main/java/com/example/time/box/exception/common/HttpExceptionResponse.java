@@ -11,7 +11,7 @@ public class HttpExceptionResponse {
     private HttpStatus status;
     private OffsetDateTime time;
 
-    public HttpExceptionResponse(final HttpException httpException){
+    public HttpExceptionResponse(final HttpException httpException) {
         this.message = httpException.getMessage();
         this.status = httpException.getStatus();
         this.time = OffsetDateTime.now();

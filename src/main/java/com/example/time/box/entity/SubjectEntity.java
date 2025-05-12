@@ -6,11 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "subjects")
@@ -28,22 +27,14 @@ public class SubjectEntity {
     private String name;
 
     @Column
-    private OffsetDateTime startTime;
-
-    @Column
-    private OffsetDateTime endTime;
-
-    @Column
-    private Boolean running;
-
-    @Column
     private String description;
 
     @Column
-    private Integer numberOfSessions = 0;
+    private Long timeAllotted;
 
     @Column
-    private Long timeAllotted;
+    private Integer numberOfSessions;
+
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
@@ -51,5 +42,8 @@ public class SubjectEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private UserEntity user;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubjectSession> subjectSessions = new ArrayList<>();
 
 }

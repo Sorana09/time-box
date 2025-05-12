@@ -19,7 +19,7 @@ public class SessionController {
     private final SessionService sessionService;
 
     @GetMapping("{key}")
-    public ResponseEntity<SessionDto> getSession(@PathVariable (name = "key") String key) {
+    public ResponseEntity<SessionDto> getSession(@PathVariable(name = "key") String key) {
         return sessionService.getSessionBySessionKey(key)
                 .map(sessionEntity -> ResponseEntity.ok(mapper(sessionEntity)))
                 .orElse(ResponseEntity.notFound().build());
@@ -27,22 +27,21 @@ public class SessionController {
     }
 
     @PostMapping
-    public ResponseEntity<SessionDto> createSession(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<SessionDto> createSession(@RequestBody LoginRequest loginRequest) {
         return sessionService.createSession(loginRequest)
                 .map(sessionEntity -> ResponseEntity.ok(mapper(sessionEntity)))
                 .orElse(ResponseEntity.badRequest().build());
     }
 
 
-
     @DeleteMapping
-    public ResponseEntity<Boolean> deleteSession(@RequestParam(name = "key") String key){
+    public ResponseEntity<Boolean> deleteSession(@RequestParam(name = "key") String key) {
         sessionService.deleteSessionBySessionKey(key);
         return ResponseEntity.ok(true);
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<SessionDto>> getActiveSessions(){
+    public ResponseEntity<List<SessionDto>> getActiveSessions() {
         return ResponseEntity.ok(sessionService.getActiveSessions()
                 .stream().
                 map(sessionEntity -> mapper(sessionEntity))
