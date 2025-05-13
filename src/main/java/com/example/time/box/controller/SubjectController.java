@@ -26,8 +26,13 @@ public class SubjectController {
     }
 
     @GetMapping("/number-of-sessions/{id}")
-    public ResponseEntity<Integer> getNumberOfSessions(@PathVariable Long id) {
+    public ResponseEntity<Integer> getNumberOfSessions(@PathVariable(name ="id") Long id) {
         return ResponseEntity.ok().body(subjectService.getNumberOfSessionsForAnSubject(id));
+    }
+
+    @GetMapping("/total-time-allotted/{id}")
+    public ResponseEntity<Long> getTotalTimeAllotedForAnSubject(@PathVariable(name ="id") Long id){
+        return ResponseEntity.ok().body(subjectService.timeAllotedForAnSubject(id));
     }
 
     @PostMapping

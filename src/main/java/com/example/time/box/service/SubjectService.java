@@ -27,8 +27,24 @@ public class SubjectService {
 
     }
 
+    public Long timeAllotedForAnSubject(Long id){
+        List<SubjectSession> subjectSessions = subjectSessionService.getAllSubjectSessions().stream()
+                .filter(it -> it.getSubjectId().equals(id))
+                .toList();
+        Long totalTimeAllotted = findById(id).getTimeAllotted();
+        for(SubjectSession subjectSession : subjectSessions){
+            totalTimeAllotted += subjectSession.getTimeAllotted();
+        }
+
+        return totalTimeAllotted;
+    }
+
     public List<SubjectEntity> findAll() {
         return subjectRepository.findAll();
+    }
+
+    public SubjectEntity findById(Long id) {
+        return subjectRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public List<SubjectEntity> findByUserId(Long userId) {

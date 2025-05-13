@@ -5,6 +5,7 @@ import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.request.SubjectSessionRequest;
 import com.example.time.box.exception.EntityNotFoundException;
+import com.example.time.box.repository.SubjectRepository;
 import com.example.time.box.repository.SubjectSessionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class SubjectSessionService {
 
     private final SubjectSessionRepository subjectSessionRepository;
+    private final SubjectRepository subjectRepository;
 
     public List<SubjectSession> getAllSubjectSessions() {
         return subjectSessionRepository.findAll();
@@ -29,33 +31,38 @@ public class SubjectSessionService {
     }
 
     public SubjectSession saveSubjectSession(SubjectSessionRequest  subjectSessionRequest) {
-        return SubjectSession.builder()
+        return subjectSessionRepository.save(SubjectSession.builder()
                 .subjectId(subjectSessionRequest.getSubjectId())
                 .startTime(null)
                 .endTime(null)
                 .running(false)
-                .build();
+                .build());
     }
 
-    public void setStartTime(Long id){
-        SubjectSession subjectSession =subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public void setStartTime(Long subjectId){
+        SubjectEntity subjectEntity = subjectRepository.findById(subjectId).get();
 
-        Integer subjectSessionCount = subjectSession.getNumberOfSessions();
-        subjectSessionCount++;
-        subjectSession.setNumberOfSessions(subjectSessionCount);
+        subjectEntity.setNumberOfSessions(subjectEntity.getNumberOfSessions() != null ? subjectEntity.getNumberOfSessions() + 1 :  0);
+        subjectRepository.save(subjectEntity);
+
+        SubjectSession subjectSession = new SubjectSession();
 
         subjectSession.setStartTime(OffsetDateTime.now());
         subjectSession.setEndTime(null);
         subjectSession.setRunning(true);
 
+        subjectSession.setSubjectId(subjectId);
+
         subjectSessionRepository.save(subjectSession);
     }
 
     public void setEndTime(Long id){
-        SubjectSession subjectSession =subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         subjectSession.setEndTime(OffsetDateTime.now());
         subjectSession.setRunning(false);
+
+        subjectSession.setTimeAllotted(Duration.between(subjectSession.getStartTime(), subjectSession.getEndTime()).getSeconds());
 
         subjectSessionRepository.save(subjectSession);
     }
