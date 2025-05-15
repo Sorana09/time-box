@@ -7,8 +7,6 @@ import io.opentelemetry.api.common.Attributes;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.css.Counter;
-
 
 @RequiredArgsConstructor
 @Service
