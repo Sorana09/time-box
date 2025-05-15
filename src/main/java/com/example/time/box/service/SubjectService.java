@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//TODO : caltulate the duration of the all sessions for a subject
-
 @Service
 @AllArgsConstructor
 public class SubjectService {

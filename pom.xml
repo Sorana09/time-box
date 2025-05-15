@@ -28,6 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+<!--        <opentelemetry.version>1.27.0</opentelemetry.version>-->
     </properties>
     <dependencies>
         <dependency>
@@ -85,7 +86,66 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+<!--        stats-->
+
+
+<!--        &lt;!&ndash; OpenTelemetry SDK &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry</groupId>-->
+<!--            <artifactId>opentelemetry-sdk</artifactId>-->
+<!--            <version>${opentelemetry.version}</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; OpenTelemetry Exporter for OTLP &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry</groupId>-->
+<!--            <artifactId>opentelemetry-exporter-otlp</artifactId>-->
+<!--            <version>${opentelemetry.version}</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; OpenTelemetry API &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry</groupId>-->
+<!--            <artifactId>opentelemetry-api</artifactId>-->
+<!--            <version>${opentelemetry.version}</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Micrometer for Prometheus &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-otlp</artifactId>
+        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-instrumentation-bom</artifactId>
+                <version>2.13.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

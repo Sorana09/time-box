@@ -25,5 +25,20 @@ services:
     ports:
       - "8085:8080"
 
+  otel-lgtm:
+    container_name: time-box_otel-lgtm
+    image: grafana/otel-lgtm:latest
+    restart: always
+    ports:
+      - "3001:3000"
+      - "4317:4317"
+      - "4318:4318"
+
+
 volumes:
+  grafana-data:
   postgres_data:
+
+networks:
+  time-box:
+    driver: bridge
