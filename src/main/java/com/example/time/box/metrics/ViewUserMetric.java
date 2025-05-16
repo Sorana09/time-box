@@ -15,7 +15,7 @@ public class ViewUserMetric {
 
      public static final AttributeKey<String> USER_ID_ATTRIBUTE = AttributeKey.stringKey("users");
 
-     public void registerViewForUser(Integer userId){
+     public void registerViewForUser(Long userId){
          LongCounter counter = meter.counterBuilder("user.views")
                  .setDescription("views per user")
                  .setUnit("{view}")
