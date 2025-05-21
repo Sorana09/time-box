@@ -1,5 +1,6 @@
 package com.example.time.box.service;
 
+import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignInRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
@@ -7,6 +8,7 @@ import com.example.time.box.exception.EmailAlreadyRegisteredException;
 import com.example.time.box.exception.EmailisNotRegisteredException;
 import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
+import com.example.time.box.repository.SubjectRepository;
 import com.example.time.box.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SubjectRepository subjectRepository;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -63,6 +66,17 @@ public class UserService {
 
         return userEntity;
 
+    }
+
+    public Long timeStudied(Long id){
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        List<SubjectEntity> subjects = subjectRepository.findAllByUserId(id);
+        subjects.forEach(it -> {
+            userEntity.setTimeStudied(userEntity.getTimeStudied() + it.getTimeAllotted());
+        });
+        userRepository.save(userEntity);
+        return userEntity.getTimeStudied();
     }
 
     public UserEntity getUserById(Long id) {

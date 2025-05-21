@@ -42,6 +42,9 @@ public class UserEntity {
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
 
+    @Column
+    private Long timeStudied;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionEntity> sessions = new ArrayList<>();
 

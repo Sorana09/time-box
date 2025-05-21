@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     void deleteById(Long id);
 
+
+
 }

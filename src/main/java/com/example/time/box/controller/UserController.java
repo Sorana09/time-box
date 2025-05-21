@@ -29,6 +29,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/time-studied/{id}")
+    public ResponseEntity<Long> getTimeStudiedForAnUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.timeStudied(id));
+    }
+
     @PostMapping
     public ResponseEntity<UserDto> signUp(@RequestBody UserSignUpRequest userSignUpRequest) {
         return ResponseEntity.ok().body(mapper(userService.signUp(userSignUpRequest)));

@@ -20,4 +20,5 @@ public class UserDto {
     private String hashedPassword;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private Long timeStudied;
 }

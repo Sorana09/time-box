@@ -23,7 +23,7 @@ services:
       SPRING_DATASOURCE_USERNAME: s
       SPRING_DATASOURCE_PASSWORD: sss
     ports:
-      - "8085:8080"
+      - "8100:8082"
 
   otel-lgtm:
     container_name: time-box_otel-lgtm

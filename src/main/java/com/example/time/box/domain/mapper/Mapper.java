@@ -31,6 +31,7 @@ public class Mapper {
                 .hashedPassword(userEntity.getHashedPassword())
                 .lastName(userEntity.getLastName())
                 .updatedAt(userEntity.getUpdatedAt())
+                .timeStudied(userEntity.getTimeStudied())
                 .build();
     }
 
