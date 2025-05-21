@@ -1,12 +1,8 @@
-# Use an OpenJDK image from Docker Hub to run the application
 FROM openjdk:24-jdk-slim
-
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the generated .jar file from the target directory into the container
-# Expose the port the app will run on
-EXPOSE 8080
+# Copy the JAR built by Maven into the container
+COPY target/*.jar app.jar
 
-# Define the command to run the Spring Boot application
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
