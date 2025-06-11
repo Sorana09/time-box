@@ -25,6 +25,13 @@ public class SubjectController {
                 .toList());
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<SubjectDto>> getAllSubjectByUserId(@PathVariable(name = "userId") Long userId) {
+        return ResponseEntity.ok().body(subjectService.findAllByUserId(userId).stream()
+                .map(Mapper::mapper)
+                .toList());
+    }
+
     @GetMapping("/number-of-sessions/{id}")
     public ResponseEntity<Integer> getNumberOfSessions(@PathVariable(name ="id") Long id) {
         return ResponseEntity.ok().body(subjectService.getNumberOfSessionsForAnSubject(id));

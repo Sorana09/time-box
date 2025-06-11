@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+// TODO: write a method to pause a session or to continue the session
 @Service
 @RequiredArgsConstructor
 public class SessionService {

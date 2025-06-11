@@ -25,7 +25,7 @@ services:
     ports:
       - "8100:8082"
 
-  otel-lgtm:
+  otel-lotel-lgtm:
     container_name: time-box_otel-lgtm
     image: grafana/otel-lgtm:latest
     restart: always

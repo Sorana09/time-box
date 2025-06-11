@@ -41,6 +41,13 @@ public class SubjectService {
         return subjectRepository.findAll();
     }
 
+    public List<SubjectEntity> findAllByUserId(Long userId) {
+        if (userService.getUserById(userId) == null) {
+            throw new EntityNotFoundException();
+        }
+        return subjectRepository.findByUserId(userId);
+    }
+
     public SubjectEntity findById(Long id) {
         return subjectRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }

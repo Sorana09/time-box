@@ -72,7 +72,7 @@ public class SubjectSessionService {
 
         if(subjectSession.getStartTime() != null && subjectSession.getEndTime() != null){
             Long sessionDuration = Duration.between(subjectSession.getStartTime(), subjectSession.getEndTime()).getSeconds();
-            subjectSession.setTimeAllotted((subjectSession.getTimeAllotted() !=null ? subjectSession.getTimeAllotted() : 0L) +sessionDuration);
+            subjectSession.setTimeAllotted((subjectSession.getTimeAllotted() !=null ? subjectSession.getTimeAllotted() : 0L) + sessionDuration);
             subjectSession.setStartTime(null);
             subjectSession.setEndTime(null);
         }

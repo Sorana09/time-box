@@ -11,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO : implement streak days and the longest session, timeaveraged time studied per day, and the total time studied
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
