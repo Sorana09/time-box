@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "5435:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -20,13 +20,13 @@ services:
       - postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/time-box
-      SPRING_DATASOURCE_USERNAME: s
-      SPRING_DATASOURCE_PASSWORD: sss
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
     ports:
       - "8100:8082"
 
   otel-lotel-lgtm:
-    container_name: time-box_otel-lgtm
+    container_name: time-box_otel1
     image: grafana/otel-lgtm:latest
     restart: always
     ports:
