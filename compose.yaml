@@ -23,7 +23,7 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
     ports:
-      - "8100:8082"
+      - "8100:8100"
 
   otel-lotel-lgtm:
     container_name: time-box_otel1
