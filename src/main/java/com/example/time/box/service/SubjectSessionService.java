@@ -47,7 +47,7 @@ public class SubjectSessionService {
 
         SubjectSession subjectSession = new SubjectSession();
 
-        subjectSession.setStartTime(OffsetDateTime.now());
+       subjectSession.setStartTime(OffsetDateTime.now());
         subjectSession.setEndTime(null);
         subjectSession.setRunning(true);
 

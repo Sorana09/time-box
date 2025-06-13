@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 @Builder
 public class UserEntity {
+    //TODO: add day streaek, today's sessions, av sssion, longst session, most productive session, weekly goal, dayle study time, GOALS AND ACHIEVEMENTS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
