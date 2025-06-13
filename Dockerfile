@@ -1,11 +1,11 @@
-# First build stage (Maven)
-FROM eclipse-temurin:21-jdk-alpine
+# First build stage (Maven cu JDK 21)
+FROM maven:3.9.6-eclipse-temurin-21 as builder
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Second stage (run the built JAR)
-FROM eclipse-temurin:17-jdk-alpine
+# Second stage (runtime JDK 21 Alpine)
+FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8082
