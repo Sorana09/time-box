@@ -1,21 +1,27 @@
 package com.example.time.box.service;
 
 import com.example.time.box.entity.SubjectEntity;
+import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignInRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
-import com.example.time.box.exception.EmailAlreadyRegisteredException;
-import com.example.time.box.exception.EmailisNotRegisteredException;
-import com.example.time.box.exception.IncorrectPasswordException;
-import com.example.time.box.exception.PasswordIsNullException;
+import com.example.time.box.exception.*;
 import com.example.time.box.repository.SubjectRepository;
 import com.example.time.box.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,7 +29,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final SubjectRepository subjectRepository;
+
+    @Lazy
+    private final SubjectService subjectService;
+    private final SubjectSessionService subjectSessionService;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -54,6 +63,60 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
+    public List<SubjectSession> getAllSubjectSesionsForAnUser(Long userId){
+        List<SubjectEntity> subjectEntities = subjectService.findAllByUserId(userId);
+        return subjectEntities.stream()
+                .map(it -> subjectSessionService.getAllSubjectSessions().stream()
+                        .filter(subjectSession -> subjectSession.getSubjectId().equals(it.getId()))
+                        .toList())
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    public void save(UserEntity userEntity){
+        userRepository.save(userEntity);
+    }
+
+    @Transactional
+    public Integer daysStreak(Long userId) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
+
+        List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(userId);
+        if (subjectSessions.isEmpty()) {
+            user.setDaysStreak(0);
+            userRepository.save(user);
+            return 0;
+        }
+        List<LocalDate> studyDates = subjectSessions.stream()
+                .map(session -> session.getStartTime().toLocalDate())
+                .distinct()
+                .sorted()
+                .toList();
+
+        int streak = 1;
+        LocalDate today = LocalDate.now();
+        LocalDate lastDate = studyDates.get(studyDates.size() - 1);
+
+        if (ChronoUnit.DAYS.between(lastDate, today) > 1) {
+            user.setDaysStreak(0);
+            userRepository.save(user);
+            return 0;
+        }
+
+        for (int i = studyDates.size() - 1; i > 0; i--) {
+            if (ChronoUnit.DAYS.between(studyDates.get(i-1), studyDates.get(i)) == 1) {
+                streak++;
+            } else {
+                break;
+            }
+        }
+
+        user.setDaysStreak(streak);
+        userRepository.save(user);
+
+        return streak;
+    }
+
     public UserEntity signIn(final UserSignInRequest userSignInRequest) {
         if (userRepository.findByEmail(userSignInRequest.getEmail()).isEmpty()) {
             throw new EmailisNotRegisteredException();
@@ -71,7 +134,7 @@ public class UserService {
     public Long timeStudied(Long id){
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        List<SubjectEntity> subjects = subjectRepository.findAllByUserId(id);
+        List<SubjectEntity> subjects = subjectService.findAllByUserId(id);
         subjects.forEach(it -> {
             userEntity.setTimeStudied(userEntity.getTimeStudied() + it.getTimeAllotted());
         });

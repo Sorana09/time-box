@@ -44,4 +44,11 @@ public class UserController {
         userService.deleteUserById(id);
     }
 
+    @GetMapping("/days-streak/{id}")
+    public Integer getDaysStreak(@PathVariable Long id){
+        return userService.daysStreak(id);
+    }
+
+
+
 }

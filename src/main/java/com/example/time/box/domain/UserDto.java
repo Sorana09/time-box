@@ -21,4 +21,10 @@ public class UserDto {
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private Long timeStudied;
+    private Integer daysStreak;
+    private Integer todaySessions;
+    private Integer longestSession;
+    private Integer mostProductiveSubject;
+    private Integer weeklyGoal;
+    private Integer dailyStudyTime;
 }

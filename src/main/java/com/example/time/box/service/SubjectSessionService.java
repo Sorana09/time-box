@@ -67,6 +67,17 @@ public class SubjectSessionService {
         subjectSessionRepository.save(subjectSession);
     }
 
+    public void pauseSession(Long id){
+        SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        subjectSession.setRunning(false);
+        subjectSessionRepository.save(subjectSession);
+
+    }
+    public void restartSession(Long id){
+        SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        subjectSession.setRunning(true);
+    }
+
     public Long durationForAnSessions(Long id){
         SubjectSession subjectSession =subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
@@ -78,6 +89,7 @@ public class SubjectSessionService {
         }
         return subjectSession.getTimeAllotted() != null ? subjectSession.getTimeAllotted() : 0L;
     }
+
 
     public void deleteSubjectSession(Long id) {
         subjectSessionRepository.deleteById(id);

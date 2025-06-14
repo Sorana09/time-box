@@ -32,6 +32,12 @@ public class Mapper {
                 .lastName(userEntity.getLastName())
                 .updatedAt(userEntity.getUpdatedAt())
                 .timeStudied(userEntity.getTimeStudied())
+                .dailyStudyTime(userEntity.getDailyStudyTime())
+                .daysStreak(userEntity.getDaysStreak())
+                .longestSession(userEntity.getLongestSession())
+                .mostProductiveSubject(userEntity.getMostProductiveSubject())
+                .todaySessions(userEntity.getTodaySessions())
+                .weeklyGoal(userEntity.getWeeklyGoal())
                 .build();
     }
 

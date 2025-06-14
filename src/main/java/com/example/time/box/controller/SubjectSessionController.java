@@ -32,6 +32,16 @@ public class SubjectSessionController {
         return ResponseEntity.ok().body(mapper(subjectSessionService.saveSubjectSession(subjectSessionRequest)));
     }
 
+    @PutMapping("/{id}/pause")
+    public void pauseSession(@PathVariable(name = "id") Long id){
+        subjectSessionService.pauseSession(id);
+    }
+
+    @PutMapping("/{id}/restart")
+    public void restartSession(@PathVariable(name = "id") Long id){
+        subjectSessionService.restartSession(id);
+    }
+
     @PutMapping("/{id}/start")
     public void setStartTime(@PathVariable(name = "id") Long id){
         subjectSessionService.setStartTime(id);

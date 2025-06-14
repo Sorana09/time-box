@@ -46,6 +46,24 @@ public class UserEntity {
     @Column
     private Long timeStudied;
 
+    @Column
+    private Integer daysStreak;
+
+    @Column
+    private Integer todaySessions;
+
+    @Column
+    private Integer longestSession;
+
+    @Column
+    private Integer mostProductiveSubject;
+
+    @Column
+    private Integer weeklyGoal;
+
+    @Column
+    private Integer dailyStudyTime;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionEntity> sessions = new ArrayList<>();
 

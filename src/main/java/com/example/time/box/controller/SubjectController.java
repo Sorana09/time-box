@@ -32,6 +32,12 @@ public class SubjectController {
                 .toList());
     }
 
+    @PutMapping("/{id}/description")
+    public ResponseEntity<String> changeDescription(@PathVariable(name = "id") Long id, @RequestBody String description){
+       subjectService.changeDescription(id, description);
+       return ResponseEntity.ok().body(description);
+    }
+
     @GetMapping("/number-of-sessions/{id}")
     public ResponseEntity<Integer> getNumberOfSessions(@PathVariable(name ="id") Long id) {
         return ResponseEntity.ok().body(subjectService.getNumberOfSessionsForAnSubject(id));
