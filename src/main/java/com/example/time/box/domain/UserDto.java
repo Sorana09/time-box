@@ -28,4 +28,5 @@ public class UserDto {
     private Integer weeklyGoal;
     private Integer dailyStudyTime;
     private Integer achievementsCount;
+    private Boolean emailVerified;
 }

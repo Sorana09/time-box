@@ -1,7 +1,9 @@
 package com.example.time.box.controller;
 
 import com.example.time.box.domain.UserDto;
+import com.example.time.box.entity.request.PasswordResetRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
+import com.example.time.box.entity.request.VerificationRequest;
 import com.example.time.box.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> signUp(@RequestBody UserSignUpRequest userSignUpRequest) {
-        return ResponseEntity.ok().body(mapper(userService.signUp(userSignUpRequest)));
+        UserDto userDto = mapper(userService.signUp(userSignUpRequest));
+        // Send verification code to the user's email
+        userService.sendVerificationCode(userDto.getId());
+        return ResponseEntity.ok().body(userDto);
     }
 
     @DeleteMapping("/{id}")
@@ -88,5 +93,30 @@ public class UserController {
     public ResponseEntity<Integer> getDailyStudyTime(@PathVariable Long id) {
         Integer dailyStudyTime = userService.getDailyStudyTime(id);
         return ResponseEntity.ok(dailyStudyTime);
+    }
+
+    @PostMapping("/{userId}/send-verification")
+    public ResponseEntity<Boolean> sendVerificationCode(@PathVariable Long userId) {
+        boolean sent = userService.sendVerificationCode(userId);
+        return ResponseEntity.ok(sent);
+    }
+
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<Boolean> verifyEmail(@RequestBody VerificationRequest request) {
+        boolean verified = userService.verifyEmail(request.getUserId(), request.getVerificationCode());
+        return ResponseEntity.ok(verified);
+    }
+
+    @PostMapping("/{userId}/send-password-reset")
+    public ResponseEntity<Boolean> sendPasswordResetCode(@PathVariable Long userId) {
+        boolean sent = userService.sendPasswordResetCode(userId);
+        return ResponseEntity.ok(sent);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Boolean> resetPassword(@RequestBody PasswordResetRequest request) {
+        boolean reset = userService.resetPassword(request);
+        return ResponseEntity.ok(reset);
     }
 }

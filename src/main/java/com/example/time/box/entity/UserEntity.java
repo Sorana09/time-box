@@ -66,6 +66,15 @@ public class UserEntity {
     @Column
     private Integer avgSession;
 
+    @Column(nullable = false)
+    private Boolean emailVerified = false;
+
+    @Column
+    private String verificationCode;
+
+    @Column
+    private OffsetDateTime verificationCodeExpiry;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionEntity> sessions = new ArrayList<>();
 
