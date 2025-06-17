@@ -33,18 +33,18 @@ public class SubjectController {
     }
 
     @PutMapping("/{id}/description")
-    public ResponseEntity<String> changeDescription(@PathVariable(name = "id") Long id, @RequestBody String description){
-       subjectService.changeDescription(id, description);
-       return ResponseEntity.ok().body(description);
+    public ResponseEntity<String> changeDescription(@PathVariable(name = "id") Long id, @RequestBody String description) {
+        subjectService.changeDescription(id, description);
+        return ResponseEntity.ok().body(description);
     }
 
     @GetMapping("/number-of-sessions/{id}")
-    public ResponseEntity<Integer> getNumberOfSessions(@PathVariable(name ="id") Long id) {
+    public ResponseEntity<Integer> getNumberOfSessions(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok().body(subjectService.getNumberOfSessionsForAnSubject(id));
     }
 
     @GetMapping("/total-time-allotted/{id}")
-    public ResponseEntity<Long> getTotalTimeAllotedForAnSubject(@PathVariable(name ="id") Long id){
+    public ResponseEntity<Long> getTotalTimeAllotedForAnSubject(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok().body(subjectService.timeAllotedForAnSubject(id));
     }
 

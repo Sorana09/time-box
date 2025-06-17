@@ -30,7 +30,7 @@ public class SubjectSessionService {
         return subjectSessionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
 
-    public SubjectSession saveSubjectSession(SubjectSessionRequest  subjectSessionRequest) {
+    public SubjectSession saveSubjectSession(SubjectSessionRequest subjectSessionRequest) {
         return subjectSessionRepository.save(SubjectSession.builder()
                 .subjectId(subjectSessionRequest.getSubjectId())
                 .startTime(null)
@@ -39,15 +39,15 @@ public class SubjectSessionService {
                 .build());
     }
 
-    public void setStartTime(Long subjectId){
+    public void setStartTime(Long subjectId) {
         SubjectEntity subjectEntity = subjectRepository.findById(subjectId).get();
 
-        subjectEntity.setNumberOfSessions(subjectEntity.getNumberOfSessions() != null ? subjectEntity.getNumberOfSessions() + 1 :  0);
+        subjectEntity.setNumberOfSessions(subjectEntity.getNumberOfSessions() != null ? subjectEntity.getNumberOfSessions() + 1 : 0);
         subjectRepository.save(subjectEntity);
 
         SubjectSession subjectSession = new SubjectSession();
 
-       subjectSession.setStartTime(OffsetDateTime.now());
+        subjectSession.setStartTime(OffsetDateTime.now());
         subjectSession.setEndTime(null);
         subjectSession.setRunning(true);
 
@@ -56,7 +56,7 @@ public class SubjectSessionService {
         subjectSessionRepository.save(subjectSession);
     }
 
-    public void setEndTime(Long id){
+    public void setEndTime(Long id) {
         SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         subjectSession.setEndTime(OffsetDateTime.now());
@@ -67,23 +67,36 @@ public class SubjectSessionService {
         subjectSessionRepository.save(subjectSession);
     }
 
-    public void pauseSession(Long id){
+    public void pauseSession(Long id) {
         SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        if (subjectSession.getRunning() && subjectSession.getStartTime() != null) {
+            Long timeSpentSoFar = Duration.between(subjectSession.getStartTime(), OffsetDateTime.now()).getSeconds();
+            subjectSession.setTimeAllotted((subjectSession.getTimeAllotted() != null ? subjectSession.getTimeAllotted() : 0L) + timeSpentSoFar);
+            subjectSession.setEndTime(OffsetDateTime.now());
+        }
+
         subjectSession.setRunning(false);
         subjectSessionRepository.save(subjectSession);
-
     }
-    public void restartSession(Long id){
+
+    public void restartSession(Long id) {
         SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        subjectSession.setStartTime(OffsetDateTime.now());
+
+        subjectSession.setEndTime(null);
+
         subjectSession.setRunning(true);
+        subjectSessionRepository.save(subjectSession);
     }
 
-    public Long durationForAnSessions(Long id){
-        SubjectSession subjectSession =subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public Long durationForAnSessions(Long id) {
+        SubjectSession subjectSession = subjectSessionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        if(subjectSession.getStartTime() != null && subjectSession.getEndTime() != null){
+        if (subjectSession.getStartTime() != null && subjectSession.getEndTime() != null) {
             Long sessionDuration = Duration.between(subjectSession.getStartTime(), subjectSession.getEndTime()).getSeconds();
-            subjectSession.setTimeAllotted((subjectSession.getTimeAllotted() !=null ? subjectSession.getTimeAllotted() : 0L) + sessionDuration);
+            subjectSession.setTimeAllotted((subjectSession.getTimeAllotted() != null ? subjectSession.getTimeAllotted() : 0L) + sessionDuration);
             subjectSession.setStartTime(null);
             subjectSession.setEndTime(null);
         }

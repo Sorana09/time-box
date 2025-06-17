@@ -9,5 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MeterBuilder {
     @Bean
-    public Meter meter(OpenTelemetry openTelemetry){ return openTelemetry.getMeter("time-box");}
+    public Meter meter(OpenTelemetry openTelemetry) {
+        return openTelemetry.getMeter("time-box");
+    }
 }

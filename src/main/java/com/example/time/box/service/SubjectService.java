@@ -18,19 +18,19 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final SubjectSessionService subjectSessionService;
 
-    public Integer getNumberOfSessionsForAnSubject(Long id){
+    public Integer getNumberOfSessionsForAnSubject(Long id) {
         return subjectSessionService.getAllSubjectSessions().stream()
                 .filter(it -> it.getSubjectId().equals(id))
                 .toList().size();
 
     }
 
-    public Long timeAllotedForAnSubject(Long id){
+    public Long timeAllotedForAnSubject(Long id) {
         List<SubjectSession> subjectSessions = subjectSessionService.getAllSubjectSessions().stream()
                 .filter(it -> it.getSubjectId().equals(id))
                 .toList();
         Long totalTimeAllotted = findById(id).getTimeAllotted();
-        for(SubjectSession subjectSession : subjectSessions){
+        for (SubjectSession subjectSession : subjectSessions) {
             totalTimeAllotted += subjectSession.getTimeAllotted();
         }
 
@@ -49,11 +49,11 @@ public class SubjectService {
         return subjectRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public String changeDescription(Long id, String description){
+    public String changeDescription(Long id, String description) {
         SubjectEntity subjectEntity = findById(id);
         subjectEntity.setDescription(description);
         subjectRepository.save(subjectEntity);
-        return  subjectEntity.getDescription();
+        return subjectEntity.getDescription();
     }
 
 
@@ -65,7 +65,6 @@ public class SubjectService {
 
         return subjectRepository.save(subject);
     }
-
 
 
     public void deleteById(Long id) {

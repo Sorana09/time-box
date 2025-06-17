@@ -45,10 +45,48 @@ public class UserController {
     }
 
     @GetMapping("/days-streak/{id}")
-    public Integer getDaysStreak(@PathVariable Long id){
+    public Integer getDaysStreak(@PathVariable Long id) {
         return userService.daysStreak(id);
     }
 
+    @PutMapping("/{id}/weekly-goal")
+    public ResponseEntity<Integer> setWeeklyGoal(@PathVariable Long id, @RequestBody Integer weeklyGoal) {
+        return ResponseEntity.ok().body(userService.setWeeklyGoal(id, weeklyGoal));
+    }
 
+    @PutMapping("/{id}/daily-study-time")
+    public ResponseEntity<Void> setDailyStudyTime(@PathVariable Long id, @RequestBody Integer dailyStudyTime) {
+        userService.setDailyStudyTime(id, dailyStudyTime);
+        return ResponseEntity.ok().build();
+    }
 
+    @GetMapping("/{id}/avg-session")
+    public ResponseEntity<Integer> getAvgSession(@PathVariable Long id) {
+        Integer avgSession = userService.calculateAvgSession(id);
+        return ResponseEntity.ok(avgSession);
+    }
+
+    @GetMapping("/{id}/today-sessions")
+    public ResponseEntity<Integer> getTodaySessions(@PathVariable Long id) {
+        Integer todaySessions = userService.calculateTodaySessions(id);
+        return ResponseEntity.ok(todaySessions);
+    }
+
+    @GetMapping("/{id}/most-productive-subject")
+    public ResponseEntity<String> getMostProductiveSubject(@PathVariable Long id) {
+        String mostProductiveSubject = userService.calculateMostProductiveSubject(id);
+        return ResponseEntity.ok(mostProductiveSubject);
+    }
+
+    @GetMapping("/{id}/longest-session")
+    public ResponseEntity<Integer> getLongestSession(@PathVariable Long id) {
+        Integer longestSession = userService.calculateLongestSession(id);
+        return ResponseEntity.ok(longestSession);
+    }
+
+    @GetMapping("/{id}/daily-study-time")
+    public ResponseEntity<Integer> getDailyStudyTime(@PathVariable Long id) {
+        Integer dailyStudyTime = userService.getDailyStudyTime(id);
+        return ResponseEntity.ok(dailyStudyTime);
+    }
 }

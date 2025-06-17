@@ -15,15 +15,15 @@ public class UserAspect {
     private final ViewUserMetric viewUserMetric;
 
     @AfterReturning(
-            value="execution(* com.example.time.box.controller.UserController.signUp(..))",
+            value = "execution(* com.example.time.box.controller.UserController.signUp(..))",
             returning = "responseEntity"
     )
-    public void afterReturningSignup(ResponseEntity<UserDto> responseEntity){
-        if(responseEntity.getStatusCode().is2xxSuccessful()){
+    public void afterReturningSignup(ResponseEntity<UserDto> responseEntity) {
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
 
             UserDto userDto = responseEntity.getBody();
 
-            if (userDto != null){
+            if (userDto != null) {
                 viewUserMetric.registerViewForUser(userDto.getId());
             }
 

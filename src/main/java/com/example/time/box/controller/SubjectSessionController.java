@@ -21,44 +21,44 @@ public class SubjectSessionController {
     private final SubjectSessionService subjectSessionService;
 
     @GetMapping
-    public ResponseEntity<List<SubjectSessionDto>> getAllSubjectSessions(){
+    public ResponseEntity<List<SubjectSessionDto>> getAllSubjectSessions() {
         return ResponseEntity.ok().body(subjectSessionService.getAllSubjectSessions().stream()
                 .map(Mapper::mapper)
                 .toList());
     }
 
     @PostMapping
-    public ResponseEntity<SubjectSessionDto> createSubjectSession(@RequestBody SubjectSessionRequest subjectSessionRequest){
+    public ResponseEntity<SubjectSessionDto> createSubjectSession(@RequestBody SubjectSessionRequest subjectSessionRequest) {
         return ResponseEntity.ok().body(mapper(subjectSessionService.saveSubjectSession(subjectSessionRequest)));
     }
 
     @PutMapping("/{id}/pause")
-    public void pauseSession(@PathVariable(name = "id") Long id){
+    public void pauseSession(@PathVariable(name = "id") Long id) {
         subjectSessionService.pauseSession(id);
     }
 
     @PutMapping("/{id}/restart")
-    public void restartSession(@PathVariable(name = "id") Long id){
+    public void restartSession(@PathVariable(name = "id") Long id) {
         subjectSessionService.restartSession(id);
     }
 
     @PutMapping("/{id}/start")
-    public void setStartTime(@PathVariable(name = "id") Long id){
+    public void setStartTime(@PathVariable(name = "id") Long id) {
         subjectSessionService.setStartTime(id);
     }
 
     @PutMapping("/{id}/end")
-    public void setEndTime(@PathVariable(name ="id") Long id){
+    public void setEndTime(@PathVariable(name = "id") Long id) {
         subjectSessionService.setEndTime(id);
     }
 
     @GetMapping("/duration/{id}")
-    public ResponseEntity<Long> getDurationTime(@PathVariable(name ="id") Long id) {
+    public ResponseEntity<Long> getDurationTime(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok().body(subjectSessionService.durationForAnSessions(id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSubjectSession(@PathVariable Long id){
+    public void deleteSubjectSession(@PathVariable Long id) {
         subjectSessionService.deleteSubjectSession(id);
     }
 

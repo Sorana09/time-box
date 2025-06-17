@@ -8,6 +8,7 @@ import com.example.time.box.entity.request.UserSignUpRequest;
 import com.example.time.box.exception.*;
 import com.example.time.box.repository.SubjectRepository;
 import com.example.time.box.repository.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+//TODO: weekly goal - time
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -63,7 +65,7 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public List<SubjectSession> getAllSubjectSesionsForAnUser(Long userId){
+    public List<SubjectSession> getAllSubjectSesionsForAnUser(Long userId) {
         List<SubjectEntity> subjectEntities = subjectService.findAllByUserId(userId);
         return subjectEntities.stream()
                 .map(it -> subjectSessionService.getAllSubjectSessions().stream()
@@ -73,7 +75,7 @@ public class UserService {
                 .toList();
     }
 
-    public void save(UserEntity userEntity){
+    public void save(UserEntity userEntity) {
         userRepository.save(userEntity);
     }
 
@@ -104,7 +106,7 @@ public class UserService {
         }
 
         for (int i = studyDates.size() - 1; i > 0; i--) {
-            if (ChronoUnit.DAYS.between(studyDates.get(i-1), studyDates.get(i)) == 1) {
+            if (ChronoUnit.DAYS.between(studyDates.get(i - 1), studyDates.get(i)) == 1) {
                 streak++;
             } else {
                 break;
@@ -117,22 +119,139 @@ public class UserService {
         return streak;
     }
 
-    public UserEntity signIn(final UserSignInRequest userSignInRequest) {
-        if (userRepository.findByEmail(userSignInRequest.getEmail()).isEmpty()) {
-            throw new EmailisNotRegisteredException();
-        }
-        UserEntity userEntity = userRepository.findByEmail(userSignInRequest.getEmail()).get();
-
-        if (!userEntity.getHashedPassword().equals(userSignInRequest.getPassword())) {
-            throw new IncorrectPasswordException();
-        }
-
-        return userEntity;
-
+    public Integer setWeeklyGoal(Long id, Integer weeklyGoal) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        userEntity.setWeeklyGoal(weeklyGoal);
+        userRepository.save(userEntity);
+        return  weeklyGoal;
     }
 
-    public Long timeStudied(Long id){
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void setDailyStudyTime(Long id, Integer dailyStudyTime) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(id);
+        subjectSessions.stream()
+                .filter(it -> it.getStartTime().getDayOfYear() == OffsetDateTime.now().getDayOfYear());
+        dailyStudyTime = (int) subjectSessions.stream()
+                .map(it -> it.getTimeAllotted())
+                .count();
+        userEntity.setDailyStudyTime(dailyStudyTime);
+        userRepository.save(userEntity);
+    }
+
+    public Integer calculateAvgSession(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(id);
+
+        if (subjectSessions.isEmpty()) {
+            userEntity.setAvgSession(0);
+            userRepository.save(userEntity);
+            return 0;
+        }
+
+        Long totalTime = subjectSessions.stream()
+                .map(SubjectSession::getTimeAllotted)
+                .filter(Objects::nonNull)
+                .reduce(0L, Long::sum);
+
+        Integer avgTime = (int) (totalTime / subjectSessions.size());
+
+        userEntity.setAvgSession(avgTime);
+        userRepository.save(userEntity);
+
+        return avgTime;
+    }
+
+    public Integer calculateTodaySessions(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(id);
+
+        if (subjectSessions.isEmpty()) {
+            userEntity.setTodaySessions(0);
+            userRepository.save(userEntity);
+            return 0;
+        }
+
+        int todaySessionsCount = (int) subjectSessions.stream()
+                .filter(session -> session.getStartTime() != null && 
+                        session.getStartTime().toLocalDate().equals(LocalDate.now()))
+                .count();
+
+        userEntity.setTodaySessions(todaySessionsCount);
+        userRepository.save(userEntity);
+
+        return todaySessionsCount;
+    }
+
+    public String calculateMostProductiveSubject(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<SubjectEntity> subjects = subjectService.findAllByUserId(id);
+
+        if (subjects.isEmpty()) {
+            userEntity.setMostProductiveSubject("None");
+            userRepository.save(userEntity);
+            return "None";
+        }
+
+        SubjectEntity mostProductiveSubject = subjects.stream()
+                .filter(subject -> subject.getTimeAllotted() != null)
+                .max((s1, s2) -> s1.getTimeAllotted().compareTo(s2.getTimeAllotted()))
+                .orElse(null);
+
+        if (mostProductiveSubject == null) {
+            userEntity.setMostProductiveSubject("None");
+            userRepository.save(userEntity);
+            return "None";
+        }
+
+        String mostProductiveSubjectName = mostProductiveSubject.getName();
+        userEntity.setMostProductiveSubject(mostProductiveSubjectName);
+        userRepository.save(userEntity);
+
+        return mostProductiveSubjectName;
+    }
+
+    public Integer calculateLongestSession(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(id);
+
+        if (subjectSessions.isEmpty()) {
+            userEntity.setLongestSession(0);
+            userRepository.save(userEntity);
+            return 0;
+        }
+
+        SubjectSession longestSession = subjectSessions.stream()
+                .filter(session -> session.getTimeAllotted() != null)
+                .max((s1, s2) -> s1.getTimeAllotted().compareTo(s2.getTimeAllotted()))
+                .orElse(null);
+
+        if (longestSession == null) {
+            userEntity.setLongestSession(0);
+            userRepository.save(userEntity);
+            return 0;
+        }
+
+        Integer longestSessionDuration = longestSession.getTimeAllotted().intValue();
+        userEntity.setLongestSession(longestSessionDuration);
+        userRepository.save(userEntity);
+
+        return longestSessionDuration;
+    }
+
+    public Integer getDailyStudyTime(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        if (userEntity.getDailyStudyTime() == null) {
+            setDailyStudyTime(id, 0);
+        }
+
+        return userEntity.getDailyStudyTime();
+    }
+
+
+
+    public Long timeStudied(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         List<SubjectEntity> subjects = subjectService.findAllByUserId(id);
         subjects.forEach(it -> {

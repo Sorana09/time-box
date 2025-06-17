@@ -11,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-//TODO : implement streak days and the longest session, timeaveraged time studied per day, and the total time studied
+
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
@@ -19,7 +19,6 @@ import java.util.List;
 @Data
 @Builder
 public class UserEntity {
-    //TODO: .add day streaek, today's sessions, av sssion, longst session, most productive session, weekly goal, dayle study time, GOALS AND ACHIEVEMENTS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,7 +55,7 @@ public class UserEntity {
     private Integer longestSession;
 
     @Column
-    private Integer mostProductiveSubject;
+    private String mostProductiveSubject;
 
     @Column
     private Integer weeklyGoal;
@@ -64,10 +63,15 @@ public class UserEntity {
     @Column
     private Integer dailyStudyTime;
 
+    @Column
+    private Integer avgSession;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionEntity> sessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubjectEntity> subjectEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AchievementEntity> achievements = new ArrayList<>();
 }

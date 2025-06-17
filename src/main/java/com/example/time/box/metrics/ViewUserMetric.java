@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 public class ViewUserMetric {
     private final Meter meter;
 
-     public static final AttributeKey<String> USER_ID_ATTRIBUTE = AttributeKey.stringKey("users");
+    public static final AttributeKey<String> USER_ID_ATTRIBUTE = AttributeKey.stringKey("users");
 
-     public void registerViewForUser(Long userId){
-         LongCounter counter = meter.counterBuilder("user.views")
-                 .setDescription("views per user")
-                 .setUnit("{view}")
-                 .build();
-         counter.add(1L,Attributes.of(USER_ID_ATTRIBUTE,userId.toString()));
-     }
+    public void registerViewForUser(Long userId) {
+        LongCounter counter = meter.counterBuilder("user.views")
+                .setDescription("views per user")
+                .setUnit("{view}")
+                .build();
+        counter.add(1L, Attributes.of(USER_ID_ATTRIBUTE, userId.toString()));
+    }
 
 }
