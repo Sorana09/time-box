@@ -1,9 +1,9 @@
 package com.example.time.box.metrics;
 
-import io.opentelemetry.api.metrics.LongCounter;
-import io.opentelemetry.api.metrics.Meter;
-import io.opentelemetry.api.common.AttributeKey;
-import io.opentelemetry.api.common.Attributes;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Tags;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,16 +11,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class ViewUserMetric {
-    private final Meter meter;
-
-    public static final AttributeKey<String> USER_ID_ATTRIBUTE = AttributeKey.stringKey("users");
+    private final MeterRegistry meterRegistry;
 
     public void registerViewForUser(Long userId) {
-        LongCounter counter = meter.counterBuilder("user.views")
-                .setDescription("views per user")
-                .setUnit("{view}")
-                .build();
-        counter.add(1L, Attributes.of(USER_ID_ATTRIBUTE, userId.toString()));
+        Counter.builder("user.views")
+                .description("views per user")
+                .tags(Tags.of(Tag.of("user_id", userId.toString())))
+                .register(meterRegistry)
+                .increment();
     }
 
+    public void countUserRegistration() {
+        Counter.builder("users.registered")
+                .description("number of users registered")
+                .tags(Tags.of(Tag.of("type", "registered")))
+                .register(meterRegistry)
+                .increment();
+    }
 }

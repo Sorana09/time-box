@@ -1,15 +1,13 @@
 package com.example.time.box.metrics;
 
-import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.api.metrics.Meter;
-import org.springframework.context.annotation.Bean;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * This configuration class is no longer needed as Spring Boot Actuator automatically provides a MeterRegistry bean.
+ * It's kept for documentation purposes.
+ */
 @Configuration
 public class MeterBuilder {
-    @Bean
-    public Meter meter(OpenTelemetry openTelemetry) {
-        return openTelemetry.getMeter("time-box");
-    }
+    // The MeterRegistry bean is automatically provided by Spring Boot Actuator
 }
