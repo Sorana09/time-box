@@ -39,8 +39,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> signUp(@RequestBody UserSignUpRequest userSignUpRequest) {
         UserDto userDto = mapper(userService.signUp(userSignUpRequest));
-        // Send verification code to the user's email
-        userService.sendVerificationCode(userDto.getId());
         return ResponseEntity.ok().body(userDto);
     }
 
@@ -95,28 +93,5 @@ public class UserController {
         return ResponseEntity.ok(dailyStudyTime);
     }
 
-    @PostMapping("/{userId}/send-verification")
-    public ResponseEntity<Boolean> sendVerificationCode(@PathVariable Long userId) {
-        boolean sent = userService.sendVerificationCode(userId);
-        return ResponseEntity.ok(sent);
-    }
 
-
-    @PostMapping("/verify-email")
-    public ResponseEntity<Boolean> verifyEmail(@RequestBody VerificationRequest request) {
-        boolean verified = userService.verifyEmail(request.getUserId(), request.getVerificationCode());
-        return ResponseEntity.ok(verified);
-    }
-
-    @PostMapping("/{userId}/send-password-reset")
-    public ResponseEntity<Boolean> sendPasswordResetCode(@PathVariable Long userId) {
-        boolean sent = userService.sendPasswordResetCode(userId);
-        return ResponseEntity.ok(sent);
-    }
-
-    @PostMapping("/reset-password")
-    public ResponseEntity<Boolean> resetPassword(@RequestBody PasswordResetRequest request) {
-        boolean reset = userService.resetPassword(request);
-        return ResponseEntity.ok(reset);
-    }
 }

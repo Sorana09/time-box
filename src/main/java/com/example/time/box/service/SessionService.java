@@ -3,7 +3,6 @@ package com.example.time.box.service;
 import com.example.time.box.entity.SessionEntity;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.LoginRequest;
-import com.example.time.box.exception.EmailNotVerifiedException;
 import com.example.time.box.exception.EntityNotFoundException;
 import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
@@ -63,11 +62,6 @@ public class SessionService {
 
         if (!userService.verifyPassword(user.getId(), loginRequest.getPassword())) {
             throw new IncorrectPasswordException();
-        }
-
-        // Check if the user's email is verified
-        if (user.getEmailVerified() == null || !user.getEmailVerified()) {
-            throw new EmailNotVerifiedException();
         }
 
         if (find(user.getId(), true).size() >= 3) {

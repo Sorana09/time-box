@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//TODO: weekly goal - time
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -37,7 +36,6 @@ public class UserService {
     private final SubjectService subjectService;
     private final SubjectSessionService subjectSessionService;
     private final PasswordEncoder passwordEncoder;
-    private final VerificationService verificationService;
 
 
     public Optional<UserEntity> findByEmail(String email) {
@@ -53,9 +51,7 @@ public class UserService {
     }
 
     public UserEntity signUp(final UserSignUpRequest userSignUpRequest) {
-        if (userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()) {
-            throw new EmailAlreadyRegisteredException();
-        }
+
         UserEntity userEntity = UserEntity.builder()
                 .email(userSignUpRequest.getEmail())
                 .hashedPassword(passwordEncoder.encode(userSignUpRequest.getPassword()))
@@ -277,28 +273,4 @@ public class UserService {
     }
 
 
-    public boolean sendVerificationCode(Long userId) {
-        return verificationService.generateAndSendVerificationCode(userId);
-    }
-    public boolean verifyEmail(Long userId, String code) {
-        return verificationService.verifyCode(userId, code);
-    }
-
-    public boolean sendPasswordResetCode(Long userId) {
-        return verificationService.generateAndSendPasswordResetCode(userId);
-    }
-
-    public boolean resetPassword(PasswordResetRequest request) {
-        if (!verificationService.verifyCode(request.getUserId(), request.getVerificationCode())) {
-            return false;
-        }
-
-        UserEntity user = userRepository.findById(request.getUserId())
-                .orElseThrow(EntityNotFoundException::new);
-
-        user.setHashedPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
-
-        return true;
-    }
 }
