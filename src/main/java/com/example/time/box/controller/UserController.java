@@ -1,9 +1,7 @@
 package com.example.time.box.controller;
 
 import com.example.time.box.domain.UserDto;
-import com.example.time.box.entity.request.PasswordResetRequest;
 import com.example.time.box.entity.request.UserSignUpRequest;
-import com.example.time.box.entity.request.VerificationRequest;
 import com.example.time.box.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
