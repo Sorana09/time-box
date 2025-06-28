@@ -8,6 +8,7 @@ import com.example.time.box.exception.IncorrectPasswordException;
 import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.exception.TooManySessionsException;
 import com.example.time.box.repository.SessionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,7 @@ public class SessionService {
         sessionRepository.deleteById(id);
     }
 
+    @Transactional
     public void deleteSessionBySessionKey(String sessionKey) {
         sessionRepository.deleteBySessionKey(sessionKey);
     }
