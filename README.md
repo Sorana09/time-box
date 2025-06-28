@@ -17,9 +17,9 @@
 
 <img src="https://img.shields.io/badge/Spring-000000.svg?style=flat&logo=Spring&logoColor=white" alt="Spring">
 <img src="https://img.shields.io/badge/Docker-2496ED.svg?style=flat&logo=Docker&logoColor=white" alt="Docker">
-<img src="https://img.shields.io/badge/XML-005FAD.svg?style=flat&logo=XML&logoColor=white" alt="XML">
 <img src="https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=flat&logo=PostgreSQL&logoColor=white" alt="PostgreSQL">
-<img src="https://img.shields.io/badge/YAML-CB171E.svg?style=flat&logo=YAML&logoColor=white" alt="YAML">
+<img src="https://img.shields.io/badge/Java-ED8B00.svg?style=flat&logo=openjdk&logoColor=white" alt="Java">
+<img src="https://img.shields.io/badge/OpenTelemetry-000000.svg?style=flat&logo=opentelemetry&logoColor=white" alt="OpenTelemetry">
 
 </div>
 <br>
@@ -29,43 +29,110 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Testing](#testing)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [API Documentation](#api-documentation)
+- [Security](#security)
+- [Monitoring and Observability](#monitoring-and-observability)
 
 ---
 
 ## Overview
 
-Time-Box is a developer-friendly microservice focused on efficient time management and user activity tracking. Built with Spring Boot, it offers a scalable, secure, and observable architecture that integrates seamlessly with modern monitoring tools.
+Time-Box is a comprehensive time management and productivity tracking system designed to help users monitor and optimize their study and work sessions. The application allows users to track their time spent on different subjects, set goals, monitor progress, and earn achievements for their productivity.
 
-**Why Time-Box?**
+With Time-Box, users can:
+- Track study/work sessions by subject
+- Set daily and weekly goals
+- Monitor productivity metrics
+- Earn achievements for consistent work
+- Analyze performance trends
 
-This project simplifies building time-tracking applications with features designed for performance and security. The core features include:
+Whether you're a student trying to optimize your study schedule or a professional tracking work productivity, Time-Box provides the tools to help you manage your time effectively and achieve your goals.
 
--  **🔍 Observability:** Integrated with Prometheus and OpenTelemetry for comprehensive performance monitoring.
--  **🛠️ Containerization:** Lightweight Docker images built with Maven for consistent deployment.
--  **🔒 Security:** Robust security configurations to protect user data and sessions.
--  **📈 Metrics:** Real-time tracking of user engagement, subject views, and achievement activities.
--  **🗃️ Data Management:** Modular repositories and entities for efficient data access and manipulation.
--  🌐 **REST API:** Full suite of endpoints for managing users, subjects, sessions, and achievements.
+## Features
 
----
+### User Management
+- User registration and authentication
+- Profile management
+- Email verification
+
+### Time Tracking
+- Session tracking by subject
+- Daily and weekly goal setting
+- Productivity metrics:
+  - Time studied
+  - Days streak
+  - Average session length
+  - Longest session
+  - Most productive subject
+
+### Subject Management
+- Create and manage subjects/topics
+- Track time spent per subject
+- Identify most productive subjects
+
+### Achievement System
+- Earn achievements for productivity milestones
+- Track progress towards achievements
+
+### Analytics
+- View productivity trends
+- Analyze time spent by subject
+- Track goal completion
+
+## Technology Stack
+
+### Backend
+- **Language**: Java 21
+- **Framework**: Spring Boot 3.4.4
+- **Database**: PostgreSQL
+- **ORM**: Spring Data JPA
+- **Security**: Spring Security
+- **Build Tool**: Maven
+
+### DevOps & Infrastructure
+- **Containerization**: Docker
+- **Container Orchestration**: Docker Compose
+- **Monitoring**: 
+  - Spring Boot Actuator
+  - Micrometer
+  - Prometheus
+  - OpenTelemetry
+  - Grafana
 
 ## Project Structure
 
-```sh
-└── time-box/
-    ├── Dockerfile
-    ├── compose.yaml
-    ├── mvnw
-    ├── mvnw.cmd
-    ├── pom.xml
-    └── src
-        └── main
+The application follows a standard Spring Boot project structure:
+
+```
+time-box/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/time/box/
+│   │   │       ├── aspect/         # Aspect-oriented programming components
+│   │   │       ├── controller/     # REST API controllers
+│   │   │       ├── domain/         # Domain objects and DTOs
+│   │   │       ├── entity/         # JPA entities
+│   │   │       ├── exception/      # Exception handling
+│   │   │       ├── metrics/        # Metrics and monitoring
+│   │   │       ├── repository/     # Data access layer
+│   │   │       ├── security/       # Security configuration
+│   │   │       ├── service/        # Business logic
+│   │   │       └── TimeBoxApplication.java  # Application entry point
+│   │   └── resources/              # Configuration files
+│   └── test/                       # Test classes
+├── Dockerfile                      # Docker configuration
+├── compose.yaml                    # Docker Compose configuration
+├── mvnw                            # Maven wrapper script
+├── mvnw.cmd                        # Maven wrapper script for Windows
+└── pom.xml                         # Maven project configuration
 ```
 
 ---
@@ -74,57 +141,110 @@ This project simplifies building time-tracking applications with features design
 
 ### Prerequisites
 
-This project requires the following dependencies:
+To run this application, you need:
 
-- **Programming Language:** Java
-- **Package Manager:** Maven
-- **Container Runtime:** Docker
+- Java 21 or later
+- Maven 3.9+ (or use the included Maven wrapper)
+- Docker and Docker Compose (for containerized deployment)
 
 ### Installation
-
-Build time-box from the source and install dependencies:
 
 1. **Clone the repository:**
 
     ```sh
-    ❯ git clone https://github.com/Sorana09/time-box
+    git clone https://github.com/Sorana09/time-box.git
+    cd time-box
     ```
 
-2. **Navigate to the project directory:**
+2. **Build the application:**
 
     ```sh
-    ❯ cd time-box
+    ./mvnw clean package
     ```
 
-3. **Install the dependencies:**
+### Running the Application
 
-**Using [docker](https://www.docker.com/):**
+#### Using Docker Compose (Recommended)
 
-```sh
-❯ docker build -t Sorana09/time-box .
-```
-**Using [maven](https://maven.apache.org/):**
+The easiest way to run the application is using Docker Compose, which will set up the application, database, and monitoring tools:
 
 ```sh
-❯ mvn install
+docker-compose up -d
 ```
 
-### Usage
+This will start:
+- PostgreSQL database
+- Time-Box application
+- OpenTelemetry with Grafana for monitoring
 
-Run the project with:
+The application will be available at http://localhost:8100
 
-**Using [docker](https://www.docker.com/):**
+#### Using Maven
+
+You can also run the application directly using Maven:
 
 ```sh
-docker run -it {image_name}
+./mvnw spring-boot:run
 ```
-**Using [maven](https://maven.apache.org/):**
 
-```sh
-mvn exec:java
-```
----
+Note: This requires a PostgreSQL database to be running and configured in application properties.
+
+## API Documentation
+
+The application provides a RESTful API for managing users, subjects, sessions, and achievements.
+
+### User API
+
+- `GET /users` - Get all users
+- `GET /users/{id}` - Get user by ID
+- `POST /users` - Create a new user (sign up)
+- `DELETE /users/{id}` - Delete a user
+- `GET /users/time-studied/{id}` - Get total time studied for a user
+- `GET /users/days-streak/{id}` - Get current days streak for a user
+- `PUT /users/{id}/weekly-goal` - Set weekly goal for a user
+- `PUT /users/{id}/daily-study-time` - Set daily study time goal for a user
+- `GET /users/{id}/avg-session` - Get average session length for a user
+- `GET /users/{id}/today-sessions` - Get number of sessions today for a user
+- `GET /users/{id}/most-productive-subject` - Get most productive subject for a user
+- `GET /users/{id}/longest-session` - Get longest session for a user
+- `GET /users/{id}/daily-study-time` - Get daily study time for a user
+
+### Subject API
+
+The application provides endpoints for managing subjects, including creating, retrieving, updating, and deleting subjects.
+
+### Session API
+
+The application provides endpoints for managing sessions, including creating, retrieving, and analyzing study/work sessions.
+
+### Achievement API
+
+The application provides endpoints for managing achievements, including creating, retrieving, and tracking progress towards achievements.
+
+## Security
+
+The application uses Spring Security for authentication and authorization:
+
+- Password hashing for secure storage
+- Email verification for new accounts
+- Custom logout handling
+- Session management
+
+## Monitoring and Observability
+
+Time-Box includes comprehensive monitoring and observability features:
+
+- **Spring Boot Actuator**: Provides health checks and application metrics
+- **Micrometer**: Collects application metrics
+- **Prometheus**: Stores time-series metrics data
+- **OpenTelemetry**: Distributed tracing and metrics collection
+- **Grafana**: Visualization of metrics and traces
+
+The monitoring dashboard is available at http://localhost:3001 when running with Docker Compose.
+
 
 <div align="left"><a href="#top">⬆ Return</a></div>
 
 ---
+
+</div> <!-- closing div for top -->
