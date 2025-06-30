@@ -32,7 +32,7 @@ class CustomUserDetailsTest {
     @Test
     void getAuthorities() {
         Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
-        
+
         assertNotNull(authorities);
         assertEquals(1, authorities.size());
         assertTrue(authorities.contains(new SimpleGrantedAuthority("ROLE_USER")));

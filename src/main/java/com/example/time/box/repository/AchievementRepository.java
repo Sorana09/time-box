@@ -15,6 +15,6 @@ public interface AchievementRepository extends JpaRepository<AchievementEntity, 
     List<AchievementEntity> findByUserId(Long userId);
 
     List<AchievementEntity> findAllByUserId(Long userId);
-    
+
     List<AchievementEntity> findByUserIdAndCompleted(Long userId, Boolean completed);
 }

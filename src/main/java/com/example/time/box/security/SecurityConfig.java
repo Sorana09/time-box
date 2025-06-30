@@ -24,9 +24,9 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**","/actuator/prometheus", "/actuator/health", "/actuator/metrics")
+                        .requestMatchers("/actuator/**", "/actuator/prometheus", "/actuator/health", "/actuator/metrics")
                         .permitAll()
-                        .requestMatchers("/login", "/sessions/**", "/users/**","/subject-session/**", "/subjects/**", "/achievements/**")
+                        .requestMatchers("/login", "/sessions/**", "/users/**", "/subject-session/**", "/subjects/**", "/achievements/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -48,9 +48,9 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-    
+
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, CustomUserDetailsService userDetailsService) throws  Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, CustomUserDetailsService userDetailsService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())

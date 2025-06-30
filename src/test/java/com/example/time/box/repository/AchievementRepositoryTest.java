@@ -37,7 +37,7 @@ class AchievementRepositoryTest {
                 .hashedPassword("hashedPassword")
                 .emailVerified(true)
                 .build();
-        
+
         user2 = UserEntity.builder()
                 .firstName("Jane")
                 .lastName("Smith")
@@ -45,11 +45,11 @@ class AchievementRepositoryTest {
                 .hashedPassword("hashedPassword")
                 .emailVerified(true)
                 .build();
-        
+
         // Persist users
         user1 = entityManager.persist(user1);
         user2 = entityManager.persist(user2);
-        
+
         // Create test achievements
         achievement1 = AchievementEntity.builder()
                 .name("Achievement 1")
@@ -58,7 +58,7 @@ class AchievementRepositoryTest {
                 .completed(true)
                 .userId(user1.getId())
                 .build();
-        
+
         achievement2 = AchievementEntity.builder()
                 .name("Achievement 2")
                 .description("Description 2")
@@ -66,7 +66,7 @@ class AchievementRepositoryTest {
                 .completed(false)
                 .userId(user1.getId())
                 .build();
-        
+
         achievement3 = AchievementEntity.builder()
                 .name("Achievement 3")
                 .description("Description 3")
@@ -74,12 +74,12 @@ class AchievementRepositoryTest {
                 .completed(true)
                 .userId(user2.getId())
                 .build();
-        
+
         // Persist achievements
         entityManager.persist(achievement1);
         entityManager.persist(achievement2);
         entityManager.persist(achievement3);
-        
+
         // Flush to ensure data is in the database
         entityManager.flush();
     }
@@ -88,7 +88,7 @@ class AchievementRepositoryTest {
     void findByUserId() {
         // When
         List<AchievementEntity> achievements = achievementRepository.findByUserId(user1.getId());
-        
+
         // Then
         assertEquals(2, achievements.size());
         assertTrue(achievements.stream().anyMatch(a -> a.getName().equals("Achievement 1")));
@@ -99,7 +99,7 @@ class AchievementRepositoryTest {
     void findAllByUserId() {
         // When
         List<AchievementEntity> achievements = achievementRepository.findAllByUserId(user1.getId());
-        
+
         // Then
         assertEquals(2, achievements.size());
         assertTrue(achievements.stream().anyMatch(a -> a.getName().equals("Achievement 1")));
@@ -110,14 +110,14 @@ class AchievementRepositoryTest {
     void findByUserIdAndCompleted() {
         // When - Find completed achievements for user1
         List<AchievementEntity> completedAchievements = achievementRepository.findByUserIdAndCompleted(user1.getId(), true);
-        
+
         // Then
         assertEquals(1, completedAchievements.size());
         assertEquals("Achievement 1", completedAchievements.get(0).getName());
-        
+
         // When - Find incomplete achievements for user1
         List<AchievementEntity> incompleteAchievements = achievementRepository.findByUserIdAndCompleted(user1.getId(), false);
-        
+
         // Then
         assertEquals(1, incompleteAchievements.size());
         assertEquals("Achievement 2", incompleteAchievements.get(0).getName());
@@ -128,7 +128,7 @@ class AchievementRepositoryTest {
         // When
         achievementRepository.deleteById(achievement1.getId());
         entityManager.flush();
-        
+
         // Then
         List<AchievementEntity> achievements = achievementRepository.findAll();
         assertEquals(2, achievements.size());

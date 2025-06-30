@@ -47,7 +47,7 @@ class CustomAccessDeniedHandlerTest {
         // This test verifies that the handler logs the access denied event
         // Since we can't easily verify logging in a unit test, we're just testing
         // that the method throws the expected exception
-        
+
         // Given
         AccessDeniedException accessDeniedException = new AccessDeniedException("Custom access denied message");
 

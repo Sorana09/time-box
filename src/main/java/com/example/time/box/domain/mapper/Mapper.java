@@ -40,7 +40,7 @@ public class Mapper {
                 .mostProductiveSubject(userEntity.getMostProductiveSubject())
                 .todaySessions(userEntity.getTodaySessions())
                 .weeklyGoal(userEntity.getWeeklyGoal())
-                .achievementsCount(userEntity.getAchievements() != null ? 
+                .achievementsCount(userEntity.getAchievements() != null ?
                         (int) userEntity.getAchievements().stream().filter(a -> a.getCompleted() != null && a.getCompleted()).count() : 0)
                 .emailVerified(userEntity.getEmailVerified())
                 .build();

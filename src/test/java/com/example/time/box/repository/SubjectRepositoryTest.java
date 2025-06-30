@@ -37,7 +37,7 @@ class SubjectRepositoryTest {
                 .hashedPassword("hashedPassword")
                 .emailVerified(true)
                 .build();
-        
+
         user2 = UserEntity.builder()
                 .firstName("Jane")
                 .lastName("Smith")
@@ -45,11 +45,11 @@ class SubjectRepositoryTest {
                 .hashedPassword("hashedPassword")
                 .emailVerified(true)
                 .build();
-        
+
         // Persist users
         user1 = entityManager.persist(user1);
         user2 = entityManager.persist(user2);
-        
+
         // Create test subjects
         subject1 = SubjectEntity.builder()
                 .name("Math")
@@ -58,7 +58,7 @@ class SubjectRepositoryTest {
                 .numberOfSessions(5)
                 .userId(user1.getId())
                 .build();
-        
+
         subject2 = SubjectEntity.builder()
                 .name("Science")
                 .description("Science studies")
@@ -66,7 +66,7 @@ class SubjectRepositoryTest {
                 .numberOfSessions(3)
                 .userId(user1.getId())
                 .build();
-        
+
         subject3 = SubjectEntity.builder()
                 .name("History")
                 .description("History studies")
@@ -74,12 +74,12 @@ class SubjectRepositoryTest {
                 .numberOfSessions(2)
                 .userId(user2.getId())
                 .build();
-        
+
         // Persist subjects
         entityManager.persist(subject1);
         entityManager.persist(subject2);
         entityManager.persist(subject3);
-        
+
         // Flush to ensure data is in the database
         entityManager.flush();
     }
@@ -88,7 +88,7 @@ class SubjectRepositoryTest {
     void findByUserId() {
         // When
         List<SubjectEntity> subjects = subjectRepository.findByUserId(user1.getId());
-        
+
         // Then
         assertEquals(2, subjects.size());
         assertTrue(subjects.stream().anyMatch(s -> s.getName().equals("Math")));
@@ -99,7 +99,7 @@ class SubjectRepositoryTest {
     void findAllByUserId() {
         // When
         List<SubjectEntity> subjects = subjectRepository.findAllByUserId(user1.getId());
-        
+
         // Then
         assertEquals(2, subjects.size());
         assertTrue(subjects.stream().anyMatch(s -> s.getName().equals("Math")));
@@ -111,7 +111,7 @@ class SubjectRepositoryTest {
         // When
         subjectRepository.deleteById(subject1.getId());
         entityManager.flush();
-        
+
         // Then
         List<SubjectEntity> subjects = subjectRepository.findAll();
         assertEquals(2, subjects.size());

@@ -44,37 +44,37 @@ class SubjectSessionServiceTest {
     @BeforeEach
     void setUp() {
         session1 = SubjectSession.builder()
-            .id(1L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now().minusHours(2))
-            .endTime(OffsetDateTime.now().minusHours(1))
-            .running(false)
-            .timeAllotted(3600L) // 1 hour in seconds
-            .build();
+                .id(1L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now().minusHours(2))
+                .endTime(OffsetDateTime.now().minusHours(1))
+                .running(false)
+                .timeAllotted(3600L) // 1 hour in seconds
+                .build();
 
         session2 = SubjectSession.builder()
-            .id(2L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now().minusMinutes(30))
-            .endTime(null)
-            .running(true)
-            .timeAllotted(0L)
-            .build();
+                .id(2L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now().minusMinutes(30))
+                .endTime(null)
+                .running(true)
+                .timeAllotted(0L)
+                .build();
 
         sessions = Arrays.asList(session1, session2);
 
         subject = SubjectEntity.builder()
-            .id(1L)
-            .name("Math")
-            .description("Mathematics")
-            .timeAllotted(120L)
-            .numberOfSessions(2)
-            .userId(1L)
-            .build();
+                .id(1L)
+                .name("Math")
+                .description("Mathematics")
+                .timeAllotted(120L)
+                .numberOfSessions(2)
+                .userId(1L)
+                .build();
 
         sessionRequest = SubjectSessionRequest.builder()
-            .subjectId(1L)
-            .build();
+                .subjectId(1L)
+                .build();
     }
 
     @Test
@@ -111,12 +111,12 @@ class SubjectSessionServiceTest {
     @Test
     void saveSubjectSession() {
         SubjectSession newSession = SubjectSession.builder()
-            .id(3L)
-            .subjectId(1L)
-            .startTime(null)
-            .endTime(null)
-            .running(false)
-            .build();
+                .id(3L)
+                .subjectId(1L)
+                .startTime(null)
+                .endTime(null)
+                .running(false)
+                .build();
 
         when(subjectSessionRepository.save(any(SubjectSession.class))).thenReturn(newSession);
 
@@ -216,13 +216,13 @@ class SubjectSessionServiceTest {
     void durationForAnSessionsRunning() {
         // Create a session with start and end time for testing duration calculation
         SubjectSession runningSession = SubjectSession.builder()
-            .id(3L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now().minusMinutes(30))
-            .endTime(OffsetDateTime.now())
-            .running(true)
-            .timeAllotted(0L)
-            .build();
+                .id(3L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now().minusMinutes(30))
+                .endTime(OffsetDateTime.now())
+                .running(true)
+                .timeAllotted(0L)
+                .build();
 
         when(subjectSessionRepository.findById(anyLong())).thenReturn(Optional.of(runningSession));
 

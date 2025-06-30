@@ -44,50 +44,50 @@ class SubjectServiceTest {
     @BeforeEach
     void setUp() {
         subject1 = SubjectEntity.builder()
-            .id(1L)
-            .name("Math")
-            .description("Mathematics")
-            .timeAllotted(120L)
-            .numberOfSessions(2)
-            .userId(1L)
-            .build();
+                .id(1L)
+                .name("Math")
+                .description("Mathematics")
+                .timeAllotted(120L)
+                .numberOfSessions(2)
+                .userId(1L)
+                .build();
 
         subject2 = SubjectEntity.builder()
-            .id(2L)
-            .name("Science")
-            .description("Science studies")
-            .timeAllotted(180L)
-            .numberOfSessions(3)
-            .userId(1L)
-            .build();
+                .id(2L)
+                .name("Science")
+                .description("Science studies")
+                .timeAllotted(180L)
+                .numberOfSessions(3)
+                .userId(1L)
+                .build();
 
         subjects = Arrays.asList(subject1, subject2);
 
         session1 = SubjectSession.builder()
-            .id(1L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now())
-            .endTime(OffsetDateTime.now().plusHours(1))
-            .running(false)
-            .timeAllotted(60L)
-            .build();
+                .id(1L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now().plusHours(1))
+                .running(false)
+                .timeAllotted(60L)
+                .build();
 
         session2 = SubjectSession.builder()
-            .id(2L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now())
-            .endTime(OffsetDateTime.now().plusHours(2))
-            .running(false)
-            .timeAllotted(120L)
-            .build();
+                .id(2L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now().plusHours(2))
+                .running(false)
+                .timeAllotted(120L)
+                .build();
 
         sessions = Arrays.asList(session1, session2);
 
         createRequest = SubjectCreateRequest.builder()
-            .name("New Subject")
-            .description("New Description")
-            .userId(1L)
-            .build();
+                .name("New Subject")
+                .description("New Description")
+                .userId(1L)
+                .build();
     }
 
     @Test
@@ -172,11 +172,11 @@ class SubjectServiceTest {
     @Test
     void save() {
         SubjectEntity newSubject = SubjectEntity.builder()
-            .id(3L)
-            .name("New Subject")
-            .description("New Description")
-            .userId(1L)
-            .build();
+                .id(3L)
+                .name("New Subject")
+                .description("New Description")
+                .userId(1L)
+                .build();
 
         when(subjectRepository.save(any(SubjectEntity.class))).thenReturn(newSubject);
 
