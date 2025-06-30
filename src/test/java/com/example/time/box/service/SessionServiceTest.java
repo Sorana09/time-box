@@ -65,9 +65,9 @@ class SessionServiceTest {
         user.setHashedPassword("hashedPassword");
 
         loginRequest = LoginRequest.builder()
-            .email("test@example.com")
-            .password("password")
-            .build();
+                .email("test@example.com")
+                .password("password")
+                .build();
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails  implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private final UserEntity user;
 
     public CustomUserDetails(UserEntity user) {

@@ -58,51 +58,51 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
         userEntity = UserEntity.builder()
-            .id(1L)
-            .firstName("John")
-            .lastName("Doe")
-            .email("john.doe@example.com")
-            .hashedPassword("hashedPassword")
-            .createdAt(OffsetDateTime.now())
-            .updatedAt(OffsetDateTime.now())
-            .timeStudied(120L)
-            .daysStreak(5)
-            .todaySessions(2)
-            .longestSession(60)
-            .mostProductiveSubject("Math")
-            .weeklyGoal(10)
-            .dailyStudyTime(120)
-            .avgSession(45)
-            .emailVerified(true)
-            .build();
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .hashedPassword("hashedPassword")
+                .createdAt(OffsetDateTime.now())
+                .updatedAt(OffsetDateTime.now())
+                .timeStudied(120L)
+                .daysStreak(5)
+                .todaySessions(2)
+                .longestSession(60)
+                .mostProductiveSubject("Math")
+                .weeklyGoal(10)
+                .dailyStudyTime(120)
+                .avgSession(45)
+                .emailVerified(true)
+                .build();
 
         UserEntity userEntity2 = UserEntity.builder()
-            .id(2L)
-            .firstName("Jane")
-            .lastName("Smith")
-            .email("jane.smith@example.com")
-            .hashedPassword("hashedPassword2")
-            .createdAt(OffsetDateTime.now())
-            .updatedAt(OffsetDateTime.now())
-            .timeStudied(180L)
-            .daysStreak(3)
-            .todaySessions(1)
-            .longestSession(90)
-            .mostProductiveSubject("Science")
-            .weeklyGoal(8)
-            .dailyStudyTime(90)
-            .avgSession(60)
-            .emailVerified(true)
-            .build();
+                .id(2L)
+                .firstName("Jane")
+                .lastName("Smith")
+                .email("jane.smith@example.com")
+                .hashedPassword("hashedPassword2")
+                .createdAt(OffsetDateTime.now())
+                .updatedAt(OffsetDateTime.now())
+                .timeStudied(180L)
+                .daysStreak(3)
+                .todaySessions(1)
+                .longestSession(90)
+                .mostProductiveSubject("Science")
+                .weeklyGoal(8)
+                .dailyStudyTime(90)
+                .avgSession(60)
+                .emailVerified(true)
+                .build();
 
         userEntities = Arrays.asList(userEntity, userEntity2);
 
         signUpRequest = UserSignUpRequest.builder()
-            .firstName("New")
-            .lastName("User")
-            .email("new.user@example.com")
-            .password("password")
-            .build();
+                .firstName("New")
+                .lastName("User")
+                .email("new.user@example.com")
+                .password("password")
+                .build();
     }
 
     @Test
@@ -152,8 +152,8 @@ class UserControllerTest {
         when(userService.signUp(any(UserSignUpRequest.class))).thenReturn(userEntity);
 
         mockMvc.perform(post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signUpRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
@@ -189,8 +189,8 @@ class UserControllerTest {
         when(userService.setWeeklyGoal(anyLong(), anyInt())).thenReturn(10);
 
         mockMvc.perform(put("/users/1/weekly-goal")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("10"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("10"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("10"));
 
@@ -202,8 +202,8 @@ class UserControllerTest {
         doNothing().when(userService).setDailyStudyTime(anyLong(), anyInt());
 
         mockMvc.perform(put("/users/1/daily-study-time")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("120"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("120"))
                 .andExpect(status().isOk());
 
         verify(userService, times(1)).setDailyStudyTime(1L, 120);

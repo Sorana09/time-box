@@ -15,13 +15,13 @@ public class UserAspect {
     private final ViewUserMetric viewUserMetric;
 
     @AfterReturning("execution(* com.example.time.box.controller.UserController.getUserById(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getTimeStudiedForAnUser(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getDaysStreak(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getAvgSession(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getTodaySessions(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getMostProductiveSubject(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getLongestSession(Long)) || " +
-                    "execution(* com.example.time.box.controller.UserController.getDailyStudyTime(Long))")
+            "execution(* com.example.time.box.controller.UserController.getTimeStudiedForAnUser(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getDaysStreak(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getAvgSession(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getTodaySessions(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getMostProductiveSubject(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getLongestSession(Long)) || " +
+            "execution(* com.example.time.box.controller.UserController.getDailyStudyTime(Long))")
     public void afterUserViewed(JoinPoint joinPoint) {
         Long userId = (Long) joinPoint.getArgs()[0];
         viewUserMetric.registerViewForUser(userId);

@@ -57,10 +57,10 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_UserNotFound_ThrowsEntityNotFoundException() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> 
-            userDetailsService.loadUserByUsername("nonexistent@example.com")
+        assertThrows(EntityNotFoundException.class, () ->
+                userDetailsService.loadUserByUsername("nonexistent@example.com")
         );
-        
+
         verify(userRepository, times(1)).findByEmail("nonexistent@example.com");
     }
 }

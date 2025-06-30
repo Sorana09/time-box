@@ -60,25 +60,25 @@ class SessionControllerTest {
     @BeforeEach
     void setUp() {
         sessionEntity = SessionEntity.builder()
-            .id(1)
-            .sessionKey("test-session-key")
-            .userId(1L)
-            .expiredAt(OffsetDateTime.now().plusHours(1))
-            .build();
+                .id(1)
+                .sessionKey("test-session-key")
+                .userId(1L)
+                .expiredAt(OffsetDateTime.now().plusHours(1))
+                .build();
 
         SessionEntity sessionEntity2 = SessionEntity.builder()
-            .id(2)
-            .sessionKey("test-session-key-2")
-            .userId(2L)
-            .expiredAt(OffsetDateTime.now().plusHours(1))
-            .build();
+                .id(2)
+                .sessionKey("test-session-key-2")
+                .userId(2L)
+                .expiredAt(OffsetDateTime.now().plusHours(1))
+                .build();
 
         sessionEntities = Arrays.asList(sessionEntity, sessionEntity2);
 
         loginRequest = LoginRequest.builder()
-            .email("testuser@example.com")
-            .password("password")
-            .build();
+                .email("testuser@example.com")
+                .password("password")
+                .build();
     }
 
     @Test
@@ -112,8 +112,8 @@ class SessionControllerTest {
         when(sessionService.createSession(any(LoginRequest.class))).thenReturn(Optional.of(sessionEntity));
 
         mockMvc.perform(post("/sessions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
@@ -125,19 +125,19 @@ class SessionControllerTest {
 
     @Test
     void createSessionBadRequest() throws Exception {
-        when(sessionService.createSession(argThat(request -> 
-            request.getEmail().equals("testuser@example.com") && 
-            request.getPassword().equals("password")
+        when(sessionService.createSession(argThat(request ->
+                request.getEmail().equals("testuser@example.com") &&
+                        request.getPassword().equals("password")
         ))).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/sessions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isBadRequest());
 
-        verify(sessionService, times(1)).createSession(argThat(request -> 
-            request.getEmail().equals("testuser@example.com") && 
-            request.getPassword().equals("password")
+        verify(sessionService, times(1)).createSession(argThat(request ->
+                request.getEmail().equals("testuser@example.com") &&
+                        request.getPassword().equals("password")
         ));
     }
 
@@ -146,7 +146,7 @@ class SessionControllerTest {
         doNothing().when(sessionService).deleteSessionBySessionKey(anyString());
 
         mockMvc.perform(delete("/sessions")
-                .param("key", "test-session-key"))
+                        .param("key", "test-session-key"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
 

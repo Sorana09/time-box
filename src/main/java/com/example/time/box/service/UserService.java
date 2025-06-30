@@ -115,7 +115,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         userEntity.setWeeklyGoal(weeklyGoal);
         userRepository.save(userEntity);
-        return  weeklyGoal;
+        return weeklyGoal;
     }
 
     public void setDailyStudyTime(Long id, Integer dailyStudyTime) {
@@ -164,7 +164,7 @@ public class UserService {
         }
 
         int todaySessionsCount = (int) subjectSessions.stream()
-                .filter(session -> session.getStartTime() != null && 
+                .filter(session -> session.getStartTime() != null &&
                         session.getStartTime().toLocalDate().equals(LocalDate.now()))
                 .count();
 
@@ -239,7 +239,6 @@ public class UserService {
 
         return userEntity.getDailyStudyTime();
     }
-
 
 
     public Long timeStudied(Long id) {

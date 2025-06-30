@@ -56,91 +56,91 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         user = UserEntity.builder()
-            .id(1L)
-            .firstName("John")
-            .lastName("Doe")
-            .email("john.doe@example.com")
-            .hashedPassword("hashedPassword")
-            .createdAt(OffsetDateTime.now())
-            .updatedAt(OffsetDateTime.now())
-            .timeStudied(120L)
-            .daysStreak(5)
-            .todaySessions(2)
-            .longestSession(60)
-            .mostProductiveSubject("Math")
-            .weeklyGoal(10)
-            .dailyStudyTime(120)
-            .avgSession(45)
-            .emailVerified(true)
-            .build();
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .hashedPassword("hashedPassword")
+                .createdAt(OffsetDateTime.now())
+                .updatedAt(OffsetDateTime.now())
+                .timeStudied(120L)
+                .daysStreak(5)
+                .todaySessions(2)
+                .longestSession(60)
+                .mostProductiveSubject("Math")
+                .weeklyGoal(10)
+                .dailyStudyTime(120)
+                .avgSession(45)
+                .emailVerified(true)
+                .build();
 
         UserEntity user2 = UserEntity.builder()
-            .id(2L)
-            .firstName("Jane")
-            .lastName("Smith")
-            .email("jane.smith@example.com")
-            .hashedPassword("hashedPassword2")
-            .createdAt(OffsetDateTime.now())
-            .updatedAt(OffsetDateTime.now())
-            .timeStudied(180L)
-            .daysStreak(3)
-            .todaySessions(1)
-            .longestSession(90)
-            .mostProductiveSubject("Science")
-            .weeklyGoal(8)
-            .dailyStudyTime(90)
-            .avgSession(60)
-            .emailVerified(true)
-            .build();
+                .id(2L)
+                .firstName("Jane")
+                .lastName("Smith")
+                .email("jane.smith@example.com")
+                .hashedPassword("hashedPassword2")
+                .createdAt(OffsetDateTime.now())
+                .updatedAt(OffsetDateTime.now())
+                .timeStudied(180L)
+                .daysStreak(3)
+                .todaySessions(1)
+                .longestSession(90)
+                .mostProductiveSubject("Science")
+                .weeklyGoal(8)
+                .dailyStudyTime(90)
+                .avgSession(60)
+                .emailVerified(true)
+                .build();
 
         users = Arrays.asList(user, user2);
 
         subject1 = SubjectEntity.builder()
-            .id(1L)
-            .name("Math")
-            .description("Mathematics")
-            .timeAllotted(120L)
-            .numberOfSessions(2)
-            .userId(1L)
-            .build();
+                .id(1L)
+                .name("Math")
+                .description("Mathematics")
+                .timeAllotted(120L)
+                .numberOfSessions(2)
+                .userId(1L)
+                .build();
 
         subject2 = SubjectEntity.builder()
-            .id(2L)
-            .name("Science")
-            .description("Science studies")
-            .timeAllotted(180L)
-            .numberOfSessions(3)
-            .userId(1L)
-            .build();
+                .id(2L)
+                .name("Science")
+                .description("Science studies")
+                .timeAllotted(180L)
+                .numberOfSessions(3)
+                .userId(1L)
+                .build();
 
         subjects = Arrays.asList(subject1, subject2);
 
         session1 = SubjectSession.builder()
-            .id(1L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now().minusDays(1))
-            .endTime(OffsetDateTime.now().minusDays(1).plusHours(1))
-            .running(false)
-            .timeAllotted(3600L) // 1 hour in seconds
-            .build();
+                .id(1L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now().minusDays(1))
+                .endTime(OffsetDateTime.now().minusDays(1).plusHours(1))
+                .running(false)
+                .timeAllotted(3600L) // 1 hour in seconds
+                .build();
 
         session2 = SubjectSession.builder()
-            .id(2L)
-            .subjectId(2L)
-            .startTime(OffsetDateTime.now())
-            .endTime(OffsetDateTime.now().plusHours(2))
-            .running(false)
-            .timeAllotted(7200L) // 2 hours in seconds
-            .build();
+                .id(2L)
+                .subjectId(2L)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now().plusHours(2))
+                .running(false)
+                .timeAllotted(7200L) // 2 hours in seconds
+                .build();
 
         sessions = Arrays.asList(session1, session2);
 
         signUpRequest = UserSignUpRequest.builder()
-            .firstName("New")
-            .lastName("User")
-            .email("new.user@example.com")
-            .password("password")
-            .build();
+                .firstName("New")
+                .lastName("User")
+                .email("new.user@example.com")
+                .password("password")
+                .build();
     }
 
     @Test

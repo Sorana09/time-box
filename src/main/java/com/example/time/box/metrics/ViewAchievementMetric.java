@@ -19,6 +19,7 @@ public class ViewAchievementMetric {
                 .register(meterRegistry)
                 .increment();
     }
+
     public void countAchievementCompleted() {
         Counter.builder("achievements.completed")
                 .description("number of achievements completed")

@@ -18,7 +18,7 @@ public class AchievementAspect {
     }
 
     @AfterReturning("execution(* com.example.time.box.controller.AchievementController.completeAchievement(..))")
-    public void afterAchievementCompleted(){
+    public void afterAchievementCompleted() {
         viewAchievementMetric.countAchievementCompleted();
     }
 }

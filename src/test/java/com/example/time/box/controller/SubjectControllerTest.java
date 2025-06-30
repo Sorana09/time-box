@@ -57,30 +57,30 @@ class SubjectControllerTest {
     @BeforeEach
     void setUp() {
         subjectEntity = SubjectEntity.builder()
-            .id(1L)
-            .name("Test Subject")
-            .description("Test Description")
-            .timeAllotted(120L)
-            .numberOfSessions(5)
-            .userId(1L)
-            .build();
+                .id(1L)
+                .name("Test Subject")
+                .description("Test Description")
+                .timeAllotted(120L)
+                .numberOfSessions(5)
+                .userId(1L)
+                .build();
 
         SubjectEntity subjectEntity2 = SubjectEntity.builder()
-            .id(2L)
-            .name("Test Subject 2")
-            .description("Test Description 2")
-            .timeAllotted(180L)
-            .numberOfSessions(3)
-            .userId(1L)
-            .build();
+                .id(2L)
+                .name("Test Subject 2")
+                .description("Test Description 2")
+                .timeAllotted(180L)
+                .numberOfSessions(3)
+                .userId(1L)
+                .build();
 
         subjectEntities = Arrays.asList(subjectEntity, subjectEntity2);
 
         createRequest = SubjectCreateRequest.builder()
-            .userId(1L)
-            .name("New Subject")
-            .description("New Description")
-            .build();
+                .userId(1L)
+                .name("New Subject")
+                .description("New Description")
+                .build();
     }
 
     @Test
@@ -118,8 +118,8 @@ class SubjectControllerTest {
         when(subjectService.changeDescription(anyLong(), anyString())).thenReturn("Updated Description");
 
         mockMvc.perform(put("/subjects/1/description")
-                .contentType(MediaType.TEXT_PLAIN)
-                .content("Updated Description"))
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("Updated Description"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Updated Description"));
 
@@ -153,8 +153,8 @@ class SubjectControllerTest {
         when(subjectService.save(any(SubjectCreateRequest.class))).thenReturn(subjectEntity);
 
         mockMvc.perform(post("/subjects")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))

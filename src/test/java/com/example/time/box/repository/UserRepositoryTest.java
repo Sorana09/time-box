@@ -45,7 +45,7 @@ class UserRepositoryTest {
                 .avgSession(45)
                 .emailVerified(true)
                 .build();
-        
+
         user2 = UserEntity.builder()
                 .firstName("Jane")
                 .lastName("Smith")
@@ -63,11 +63,11 @@ class UserRepositoryTest {
                 .avgSession(60)
                 .emailVerified(true)
                 .build();
-        
+
         // Persist users
         user1 = entityManager.persist(user1);
         user2 = entityManager.persist(user2);
-        
+
         // Flush to ensure data is in the database
         entityManager.flush();
     }
@@ -76,7 +76,7 @@ class UserRepositoryTest {
     void findAll() {
         // When
         List<UserEntity> users = userRepository.findAll();
-        
+
         // Then
         assertEquals(2, users.size());
         assertTrue(users.stream().anyMatch(u -> u.getId().equals(user1.getId())));
@@ -87,7 +87,7 @@ class UserRepositoryTest {
     void findByEmail() {
         // When
         Optional<UserEntity> foundUser = userRepository.findByEmail("john.doe@example.com");
-        
+
         // Then
         assertTrue(foundUser.isPresent());
         assertEquals(user1.getId(), foundUser.get().getId());
@@ -99,7 +99,7 @@ class UserRepositoryTest {
     void findByEmailNotFound() {
         // When
         Optional<UserEntity> foundUser = userRepository.findByEmail("nonexistent@example.com");
-        
+
         // Then
         assertFalse(foundUser.isPresent());
     }
@@ -108,7 +108,7 @@ class UserRepositoryTest {
     void findById() {
         // When
         Optional<UserEntity> foundUser = userRepository.findById(user1.getId());
-        
+
         // Then
         assertTrue(foundUser.isPresent());
         assertEquals(user1.getId(), foundUser.get().getId());
@@ -120,7 +120,7 @@ class UserRepositoryTest {
     void findByIdNotFound() {
         // When
         Optional<UserEntity> foundUser = userRepository.findById(999L);
-        
+
         // Then
         assertFalse(foundUser.isPresent());
     }
@@ -137,17 +137,17 @@ class UserRepositoryTest {
                 .updatedAt(OffsetDateTime.now())
                 .emailVerified(false)
                 .build();
-        
+
         // When
         UserEntity savedUser = userRepository.save(newUser);
         entityManager.flush();
-        
+
         // Then
         assertNotNull(savedUser.getId());
         assertEquals("New", savedUser.getFirstName());
         assertEquals("User", savedUser.getLastName());
         assertEquals("new.user@example.com", savedUser.getEmail());
-        
+
         // Verify it's in the database
         Optional<UserEntity> foundUser = userRepository.findById(savedUser.getId());
         assertTrue(foundUser.isPresent());
@@ -159,11 +159,11 @@ class UserRepositoryTest {
         // When
         userRepository.deleteById(user1.getId());
         entityManager.flush();
-        
+
         // Then
         Optional<UserEntity> deletedUser = userRepository.findById(user1.getId());
         assertFalse(deletedUser.isPresent());
-        
+
         // Verify other user still exists
         Optional<UserEntity> otherUser = userRepository.findById(user2.getId());
         assertTrue(otherUser.isPresent());

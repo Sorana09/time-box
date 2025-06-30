@@ -15,7 +15,7 @@ public class SubjectAspect {
     private final ViewSubjectMetric viewSubjectMetric;
 
     @AfterReturning("execution(* com.example.time.box.controller.SubjectController.getNumberOfSessions(Long)) || " +
-                    "execution(* com.example.time.box.controller.SubjectController.getTotalTimeAllotedForAnSubject(Long))")
+            "execution(* com.example.time.box.controller.SubjectController.getTotalTimeAllotedForAnSubject(Long))")
     public void afterSubjectViewed(JoinPoint joinPoint) {
         Long subjectId = (Long) joinPoint.getArgs()[0];
         viewSubjectMetric.createViewForSubject(subjectId);

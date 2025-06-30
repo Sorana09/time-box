@@ -58,28 +58,28 @@ class SubjectSessionControllerTest {
     @BeforeEach
     void setUp() {
         subjectSession = SubjectSession.builder()
-            .id(1L)
-            .subjectId(1L)
-            .startTime(OffsetDateTime.now())
-            .endTime(OffsetDateTime.now().plusHours(1))
-            .running(true)
-            .timeAllotted(60L)
-            .build();
+                .id(1L)
+                .subjectId(1L)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now().plusHours(1))
+                .running(true)
+                .timeAllotted(60L)
+                .build();
 
         SubjectSession subjectSession2 = SubjectSession.builder()
-            .id(2L)
-            .subjectId(2L)
-            .startTime(OffsetDateTime.now())
-            .endTime(OffsetDateTime.now().plusHours(2))
-            .running(false)
-            .timeAllotted(120L)
-            .build();
+                .id(2L)
+                .subjectId(2L)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now().plusHours(2))
+                .running(false)
+                .timeAllotted(120L)
+                .build();
 
         subjectSessions = Arrays.asList(subjectSession, subjectSession2);
 
         subjectSessionRequest = SubjectSessionRequest.builder()
-            .subjectId(1L)
-            .build();
+                .subjectId(1L)
+                .build();
     }
 
     @Test
@@ -104,8 +104,8 @@ class SubjectSessionControllerTest {
         when(subjectSessionService.saveSubjectSession(any(SubjectSessionRequest.class))).thenReturn(subjectSession);
 
         mockMvc.perform(post("/subject-session")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(subjectSessionRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(subjectSessionRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))

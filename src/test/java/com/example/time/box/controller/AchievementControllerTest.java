@@ -144,8 +144,8 @@ class AchievementControllerTest {
         when(achievementService.createAchievement(any(AchievementCreateRequest.class))).thenReturn(achievementEntity);
 
         mockMvc.perform(post("/achievements")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
