@@ -1,12 +1,16 @@
-# First build stage (Maven cu JDK 21)
+# Build stage
 FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY . .
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
-# Second stage (runtime JDK 21 Alpine)
+# Runtime stage
 FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
-EXPOSE 8082
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+EXPOSE 8080
+
+ENV SPRING_PROFILES_ACTIVE=prod
+
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=8080"]

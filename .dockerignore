@@ -1,0 +1,42 @@
+# Git repo (evită trimiterea întregului istoric Git)
+.git
+.gitignore
+
+# Logs
+*.log
+logs/
+**/logs/
+
+# Maven cache (uneori apare dacă folosești local)
+.mvn/
+.mvnw.cmd
+mvnw.cmd
+
+# Test outputs
+**/test-output/
+surefire-reports/
+jacoco.exec
+
+# IDE cache & workspace files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.DS_Store
+Thumbs.db
+
+# Docker files care nu sunt necesare în container
+docker-compose.yml
+docker-compose*.yml
+Dockerfile.*   # dacă ai alte variante locale
+
+# Node/npm (dacă ai frontend în același repo)
+node_modules/
+npm-debug.log
+package-lock.json
+pnpm-lock.yaml
+dist/
+
+# OS-specific
+ehthumbs.db
+Desktop.ini
