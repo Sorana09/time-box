@@ -50,7 +50,6 @@ With Time-Box, users can:
 - Track study/work sessions by subject
 - Set daily and weekly goals
 - Monitor productivity metrics
-- Earn achievements for consistent work
 - Analyze performance trends
 
 Whether you're a student trying to optimize your study schedule or a professional tracking work productivity, Time-Box provides the tools to help you manage your time effectively and achieve your goals.
@@ -60,7 +59,6 @@ Whether you're a student trying to optimize your study schedule or a professiona
 ### User Management
 - User registration and authentication
 - Profile management
-- Email verification
 
 ### Time Tracking
 - Session tracking by subject
@@ -193,40 +191,11 @@ Note: This requires a PostgreSQL database to be running and configured in applic
 
 The application provides a RESTful API for managing users, subjects, sessions, and achievements.
 
-### User API
-
-- `GET /users` - Get all users
-- `GET /users/{id}` - Get user by ID
-- `POST /users` - Create a new user (sign up)
-- `DELETE /users/{id}` - Delete a user
-- `GET /users/time-studied/{id}` - Get total time studied for a user
-- `GET /users/days-streak/{id}` - Get current days streak for a user
-- `PUT /users/{id}/weekly-goal` - Set weekly goal for a user
-- `PUT /users/{id}/daily-study-time` - Set daily study time goal for a user
-- `GET /users/{id}/avg-session` - Get average session length for a user
-- `GET /users/{id}/today-sessions` - Get number of sessions today for a user
-- `GET /users/{id}/most-productive-subject` - Get most productive subject for a user
-- `GET /users/{id}/longest-session` - Get longest session for a user
-- `GET /users/{id}/daily-study-time` - Get daily study time for a user
-
-### Subject API
-
-The application provides endpoints for managing subjects, including creating, retrieving, updating, and deleting subjects.
-
-### Session API
-
-The application provides endpoints for managing sessions, including creating, retrieving, and analyzing study/work sessions.
-
-### Achievement API
-
-The application provides endpoints for managing achievements, including creating, retrieving, and tracking progress towards achievements.
-
 ## Security
 
 The application uses Spring Security for authentication and authorization:
 
 - Password hashing for secure storage
-- Email verification for new accounts
 - Custom logout handling
 - Session management
 
