@@ -9,8 +9,8 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 
-EXPOSE 8080
+EXPOSE 8100
 
-ENV SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=docker
 
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=8080"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
