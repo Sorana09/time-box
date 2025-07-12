@@ -1,0 +1,32 @@
+services:
+  timebox-postgres:
+    image: postgres:latest
+    container_name: timebox-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: time-box
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+
+  # time-box:
+  #   container_name: time-box
+  #   restart: always
+  #   depends_on:
+  #     - postgres
+  #   ports:
+  #     - "8100:8080"
+
+  # otel-lotel-lgtm:
+  #   container_name: time-box_otel1
+  #   image: grafana/otel-lgtm:latest
+  #   restart: always
+  #   ports:
+  #     - "3001:3000"
+  #     - "4317:4317"
+  #     - "4318:4318"
+
+networks:
+  time-box:
+    driver: bridge
