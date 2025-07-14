@@ -1,3 +1,4 @@
+
 services:
   timebox-postgres:
     image: postgres:latest
@@ -12,7 +13,7 @@ services:
 
   time-box:
     image: time-box:latest
-    container_name: time-box
+    container_name: time-box-backend
     restart: always
     depends_on:
       - timebox-postgres
@@ -21,7 +22,7 @@ services:
 
   time-box-frontend:
     image: time-box-frontend:latest
-    container_name: time-box
+    container_name: time-box-frontend
     restart: always
     ports:
       - "3000:3000"
