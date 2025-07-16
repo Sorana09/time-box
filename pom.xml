@@ -146,6 +146,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.google.cloud.sql</groupId>
+                <artifactId>postgres-socket-factory</artifactId>
+                <version>1.0.21</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
