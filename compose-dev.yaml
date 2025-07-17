@@ -12,7 +12,7 @@ services:
       - "5432:5432"
 
   time-box:
-    image: time-box:latest
+    image: ghcr.io/sorana09/time-box:latest
     container_name: time-box-backend
     restart: always
     depends_on:
@@ -21,7 +21,7 @@ services:
       - "8100:8100"
 
   time-box-frontend:
-    image: time-box-frontend:latest
+    image: ghcr.io/sorana09/time-box-frontend:latest
     container_name: time-box-frontend
     restart: always
     ports:
@@ -38,4 +38,3 @@ services:
 
 networks:
   time-box:
-    driver: bridge
