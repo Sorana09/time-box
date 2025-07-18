@@ -37,7 +37,3 @@ build/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
-cloudsql-key.json
-*.key
-*.pem
