@@ -18,14 +18,14 @@ services:
   #   ports:
   #     - "8100:8080"
 
-  # otel-lotel-lgtm:
-  #   container_name: time-box_otel1
-  #   image: grafana/otel-lgtm:latest
-  #   restart: always
-  #   ports:
-  #     - "3001:3000"
-  #     - "4317:4317"
-  #     - "4318:4318"
+  otel-lotel-lgtm:
+     container_name: time-box_otel1
+     image: grafana/otel-lgtm:latest
+     restart: always
+     ports:
+       - "3002:3000"
+       - "4317:4317"
+       - "4318:4318"
 
 networks:
   time-box:
