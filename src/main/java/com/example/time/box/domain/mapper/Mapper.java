@@ -1,15 +1,7 @@
 package com.example.time.box.domain.mapper;
 
-import com.example.time.box.domain.AchievementDto;
-import com.example.time.box.domain.SessionDto;
-import com.example.time.box.domain.SubjectDto;
-import com.example.time.box.domain.SubjectSessionDto;
-import com.example.time.box.domain.UserDto;
-import com.example.time.box.entity.AchievementEntity;
-import com.example.time.box.entity.SessionEntity;
-import com.example.time.box.entity.SubjectEntity;
-import com.example.time.box.entity.SubjectSession;
-import com.example.time.box.entity.UserEntity;
+import com.example.time.box.domain.*;
+import com.example.time.box.entity.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -78,5 +70,7 @@ public class Mapper {
                 .userId(achievementEntity.getUserId())
                 .build();
     }
+
+
 
 }
