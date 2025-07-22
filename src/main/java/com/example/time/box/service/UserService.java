@@ -118,6 +118,13 @@ public class UserService {
         return weeklyGoal;
     }
 
+    public Integer setDailyGoal(Long id, Integer dailyGoal) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        userEntity.setDailyGoal(dailyGoal);
+        userRepository.save(userEntity);
+        return dailyGoal;
+    }
+
     public void setDailyStudyTime(Long id, Integer dailyStudyTime) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         List<SubjectSession> subjectSessions = getAllSubjectSesionsForAnUser(id);

@@ -69,6 +69,7 @@ class UserServiceTest {
                 .longestSession(60)
                 .mostProductiveSubject("Math")
                 .weeklyGoal(10)
+                .dailyGoal(5)
                 .dailyStudyTime(120)
                 .avgSession(45)
                 .emailVerified(true)
@@ -239,6 +240,19 @@ class UserServiceTest {
 
         assertEquals(15, result);
         assertEquals(15, user.getWeeklyGoal());
+        verify(userRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void setDailyGoal() {
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.save(any(UserEntity.class))).thenReturn(user);
+
+        Integer result = userService.setDailyGoal(1L, 8);
+
+        assertEquals(8, result);
+        assertEquals(8, user.getDailyGoal());
         verify(userRepository, times(1)).findById(1L);
         verify(userRepository, times(1)).save(user);
     }

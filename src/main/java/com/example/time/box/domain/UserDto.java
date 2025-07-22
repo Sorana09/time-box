@@ -26,6 +26,7 @@ public class UserDto {
     private Integer longestSession;
     private String mostProductiveSubject;
     private Integer weeklyGoal;
+    private Integer dailyGoal;
     private Integer dailyStudyTime;
     private Integer achievementsCount;
     private Boolean emailVerified;

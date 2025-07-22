@@ -71,6 +71,7 @@ class UserControllerTest {
                 .longestSession(60)
                 .mostProductiveSubject("Math")
                 .weeklyGoal(10)
+                .dailyGoal(5)
                 .dailyStudyTime(120)
                 .avgSession(45)
                 .emailVerified(true)
@@ -195,6 +196,19 @@ class UserControllerTest {
                 .andExpect(content().string("10"));
 
         verify(userService, times(1)).setWeeklyGoal(1L, 10);
+    }
+
+    @Test
+    void setDailyGoal() throws Exception {
+        when(userService.setDailyGoal(anyLong(), anyInt())).thenReturn(5);
+
+        mockMvc.perform(put("/users/1/daily-goal")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("5"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("5"));
+
+        verify(userService, times(1)).setDailyGoal(1L, 5);
     }
 
     @Test

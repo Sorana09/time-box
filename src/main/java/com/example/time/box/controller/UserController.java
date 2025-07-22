@@ -55,6 +55,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.setWeeklyGoal(id, weeklyGoal));
     }
 
+    @PutMapping("/{id}/daily-goal")
+    public ResponseEntity<Integer> setDailyGoal(@PathVariable Long id, @RequestBody Integer dailyGoal) {
+        return ResponseEntity.ok().body(userService.setDailyGoal(id, dailyGoal));
+    }
+
     @PutMapping("/{id}/daily-study-time")
     public ResponseEntity<Void> setDailyStudyTime(@PathVariable Long id, @RequestBody Integer dailyStudyTime) {
         userService.setDailyStudyTime(id, dailyStudyTime);

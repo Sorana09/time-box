@@ -61,6 +61,9 @@ public class UserEntity {
     private Integer weeklyGoal;
 
     @Column
+    private Integer dailyGoal;
+
+    @Column
     private Integer dailyStudyTime;
 
     @Column
