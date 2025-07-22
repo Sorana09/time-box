@@ -217,3 +217,16 @@ The monitoring dashboard is available at http://localhost:3001 when running with
 ---
 
 </div> <!-- closing div for top -->
+
+<img width="862" height="913" alt="Screenshot 2025-07-22 123641" src="https://github.com/user-attachments/assets/92933fde-7c8f-4ee4-b035-583e4c191d4a" />
+
+
+<img width="1253" height="572" alt="Screenshot 2025-07-22 124329" src="https://github.com/user-attachments/assets/984128a1-bf3f-49c3-89a9-afe0d93e0ac5" />
+
+
+<img width="1909" height="907" alt="Screenshot 2025-07-22 123805" src="https://github.com/user-attachments/assets/0ae71758-b705-449b-999b-13f72eb8c0f1" />
+
+
+<img width="1909" height="659" alt="Screenshot 2025-07-22 123730" src="https://github.com/user-attachments/assets/c0b0521f-be86-42dc-9ec4-5d9bb6f27f27" />
+
+
