@@ -47,7 +47,7 @@ class CustomLogoutFilterTest {
         when(request.getMethod()).thenReturn("DELETE");
 
         // Execute
-        customLogoutFilter.doFilterInternal(request, response, filterChain);
+        customLogoutFilter.doFilter(request, response, filterChain);
 
         // Verify
         verify(session, times(1)).invalidate();

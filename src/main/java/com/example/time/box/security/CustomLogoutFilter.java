@@ -1,32 +1,40 @@
+
 package com.example.time.box.security;
 
+import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Slf4j
 @Component
-public class CustomLogoutFilter extends OncePerRequestFilter {
+public class CustomLogoutFilter implements Filter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if ("/sessions/".equals(request.getRequestURI()) && "DELETE".equals(request.getMethod())) {
-            System.out.println("Logging out user... Invalidating session and deleting cookie.");
-            request.getSession().invalidate();
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        if ("/sessions/".equals(httpRequest.getRequestURI()) &&
+                "DELETE".equals(httpRequest.getMethod())) {
+
+            httpRequest.getSession().invalidate();
             Cookie cookie = new Cookie("JSESSIONID", "");
             cookie.setMaxAge(0);
             cookie.setPath("/");
-            response.addCookie(cookie);
-            response.setStatus(HttpServletResponse.SC_OK);
+            httpResponse.addCookie(cookie);
+            httpResponse.setStatus(HttpServletResponse.SC_OK);
             return;
         }
-        filterChain.doFilter(request, response);
+
+        chain.doFilter(request, response);
     }
 }

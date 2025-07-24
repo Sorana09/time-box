@@ -27,4 +27,31 @@ public class ViewAchievementMetric {
                 .register(meterRegistry)
                 .increment();
     }
+
+    public void countAchievementDeleted() {
+        Counter.builder("achievements.deleted")
+                .description("number of achievements deleted")
+                .tags(Tags.of(Tag.of("type", "deleted")))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void countAchievementViewed() {
+        Counter.builder("achievements.viewed")
+                .description("number of achievement views")
+                .tags(Tags.of(Tag.of("type", "viewed")))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void registerAchievementForUser(Long userId, Long achievementId) {
+        Counter.builder("user.achievements")
+                .description("achievements per user")
+                .tags(Tags.of(
+                        Tag.of("user_id", userId.toString()),
+                        Tag.of("achievement_id", achievementId.toString())
+                ))
+                .register(meterRegistry)
+                .increment();
+    }
 }

@@ -29,4 +29,47 @@ public class ViewSubjectMetric {
                 .register(meterRegistry)
                 .increment();
     }
+
+    public void countSubjectDeletion() {
+        Counter.builder("subjects.deleted")
+                .description("number of subjects deleted")
+                .tags(Tags.of(Tag.of("type", "deleted")))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void countDescriptionChange() {
+        Counter.builder("subjects.description.changed")
+                .description("number of subject description changes")
+                .tags(Tags.of(Tag.of("type", "description_changed")))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void countSessionsQuery(Long subjectId) {
+        Counter.builder("subjects.sessions.queried")
+                .description("number of queries for subject sessions")
+                .tags(Tags.of(Tag.of("subject_id", subjectId.toString())))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void countTimeAllottedQuery(Long subjectId) {
+        Counter.builder("subjects.time.queried")
+                .description("number of queries for subject time allotted")
+                .tags(Tags.of(Tag.of("subject_id", subjectId.toString())))
+                .register(meterRegistry)
+                .increment();
+    }
+
+    public void registerSubjectForUser(Long userId, Long subjectId) {
+        Counter.builder("user.subjects")
+                .description("subjects per user")
+                .tags(Tags.of(
+                        Tag.of("user_id", userId.toString()),
+                        Tag.of("subject_id", subjectId.toString())
+                ))
+                .register(meterRegistry)
+                .increment();
+    }
 }
