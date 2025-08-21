@@ -1,5 +1,6 @@
 package com.example.time.box.event;
 
+import com.example.time.box.domain.factory.ChatMessageFactory;
 import com.example.time.box.entity.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,14 +11,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import java.time.OffsetDateTime;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class WebSocketEventListener {
 
     private final SimpMessageSendingOperations messagingTemplate;
+    private final ChatMessageFactory chatMessageFactory;
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -30,16 +30,11 @@ public class WebSocketEventListener {
 
         String username = (String) headerAccessor.getSessionAttributes().get("username");
         String roomToken = (String) headerAccessor.getSessionAttributes().get("roomToken");
-        
+
         if (username != null && roomToken != null) {
-            log.info("User Disconnected: " + username);
+            log.info("User Disconnected: {}", username);
 
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(ChatMessage.MessageType.LEAVE);
-            chatMessage.setSender(username);
-            chatMessage.setRoomToken(roomToken);
-            chatMessage.setTimestamp(OffsetDateTime.now());
-
+            ChatMessage chatMessage = chatMessageFactory.createLeaveMessage(username, roomToken);
             messagingTemplate.convertAndSend("/topic/public/" + roomToken, chatMessage);
         }
     }

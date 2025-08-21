@@ -230,3 +230,25 @@ The monitoring dashboard is available at http://localhost:3001 when running with
 <img width="1909" height="659" alt="Screenshot 2025-07-22 123730" src="https://github.com/user-attachments/assets/c0b0521f-be86-42dc-9ec4-5d9bb6f27f27" />
 
 
+
+
+---
+
+## Architecture and Design Patterns
+
+To make the code easier to understand and maintain, the project applies a simple, explicit design pattern in the WebSocket messaging area:
+
+- Factory Method: A ChatMessageFactory centralizes creation of ChatMessage objects for common cases (CHAT, JOIN, LEAVE). This removes message-building details from listeners/controllers and makes the intent clearer.
+
+Where to look:
+- ChatMessageFactory: src/main/java/com/example/time/box/domain/factory/ChatMessageFactory.java
+- Usage example: src/main/java/com/example/time/box/event/WebSocketEventListener.java
+
+Benefits:
+- Single responsibility: WebSocketEventListener focuses on handling events, while the factory handles message construction.
+- Consistency: All emitted messages are created in the same way (timestamp/type fields are consistently set).
+- Extensibility: New message variants can be added in one place.
+
+Additional Organization Notes:
+- The project uses a layered structure (controller, service, repository, security, etc.) with domain separated from persistence entities.
+- For future refactors, consider extracting use-case (application service) classes for complex flows and introducing Strategy for pluggable policies when requirements grow.
