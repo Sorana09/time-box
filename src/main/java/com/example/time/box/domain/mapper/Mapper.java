@@ -27,6 +27,7 @@ public class Mapper {
                 .updatedAt(userEntity.getUpdatedAt())
                 .timeStudied(userEntity.getTimeStudied())
                 .dailyStudyTime(userEntity.getDailyStudyTime())
+                .dailyGoal(userEntity.getDailyGoal())
                 .daysStreak(userEntity.getDaysStreak())
                 .longestSession(userEntity.getLongestSession())
                 .mostProductiveSubject(userEntity.getMostProductiveSubject())
@@ -65,7 +66,7 @@ public class Mapper {
                 .id(achievementEntity.getId())
                 .name(achievementEntity.getName())
                 .description(achievementEntity.getDescription())
-                .criteria(achievementEntity.getCriteria())
+                .subjectId(achievementEntity.getSubjectId())
                 .completed(achievementEntity.getCompleted())
                 .userId(achievementEntity.getUserId())
                 .build();

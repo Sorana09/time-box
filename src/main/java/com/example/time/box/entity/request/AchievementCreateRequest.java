@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class AchievementCreateRequest {
     private String name;
     private String description;
-    private String criteria;
+    private Long subjectId;
     private Long userId;
 }

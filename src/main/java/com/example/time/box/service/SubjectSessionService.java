@@ -1,6 +1,8 @@
 package com.example.time.box.service;
 
 
+import com.example.time.box.domain.SubjectDto;
+import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.request.SubjectSessionRequest;
@@ -13,6 +15,10 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+
 
 @Service
 @AllArgsConstructor
@@ -39,7 +45,7 @@ public class SubjectSessionService {
                 .build());
     }
 
-    public void setStartTime(Long subjectId) {
+    public SubjectSession setStartTime(Long subjectId) {
         SubjectEntity subjectEntity = subjectRepository.findById(subjectId).get();
 
         subjectEntity.setNumberOfSessions(subjectEntity.getNumberOfSessions() != null ? subjectEntity.getNumberOfSessions() + 1 : 0);
@@ -53,7 +59,8 @@ public class SubjectSessionService {
 
         subjectSession.setSubjectId(subjectId);
 
-        subjectSessionRepository.save(subjectSession);
+        SubjectSession saved = subjectSessionRepository.save(subjectSession);
+        return saved;
     }
 
     public void setEndTime(Long id) {
@@ -62,7 +69,9 @@ public class SubjectSessionService {
         subjectSession.setEndTime(OffsetDateTime.now());
         subjectSession.setRunning(false);
 
-        subjectSession.setTimeAllotted(Duration.between(subjectSession.getStartTime(), subjectSession.getEndTime()).getSeconds());
+        if (subjectSession.getStartTime() != null) {
+            subjectSession.setTimeAllotted(Duration.between(subjectSession.getStartTime(), subjectSession.getEndTime()).getSeconds());
+        }
 
         subjectSessionRepository.save(subjectSession);
     }
@@ -108,4 +117,10 @@ public class SubjectSessionService {
         subjectSessionRepository.deleteById(id);
     }
 
+    public List<SubjectSession> getAllSubjectSessionsForAnUser(Long userId) {
+        List<SubjectEntity> subjectEntities = subjectRepository.findByUserId(userId);
+        return subjectEntities.stream()
+                .map(SubjectEntity::getSubjectSessions).toList().stream().flatMap(List::stream).toList();
+
+    }
 }

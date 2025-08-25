@@ -23,8 +23,8 @@ public class AchievementEntity {
     @Column
     private String description;
 
-    @Column
-    private String criteria;
+    @Column(name = "subject_id")
+    private Long subjectId;
 
     @Column
     private Boolean completed;
@@ -35,4 +35,8 @@ public class AchievementEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false)
+    private SubjectEntity subject;
 }

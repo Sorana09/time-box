@@ -46,8 +46,13 @@ class UserControllerTest {
         }
 
         @Bean
-        public UserController userController(UserService userService) {
-            return new UserController(userService);
+        public com.example.time.box.service.SubjectSessionService subjectSessionService() {
+            return mock(com.example.time.box.service.SubjectSessionService.class);
+        }
+
+        @Bean
+        public UserController userController(UserService userService, com.example.time.box.service.SubjectSessionService subjectSessionService) {
+            return new UserController(userService, subjectSessionService);
         }
     }
 

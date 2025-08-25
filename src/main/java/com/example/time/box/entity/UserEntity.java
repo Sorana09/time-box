@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -43,16 +44,16 @@ public class UserEntity {
     private OffsetDateTime updatedAt;
 
     @Column
-    private Long timeStudied;
+    private Long timeStudied = 0L;
 
     @Column
-    private Integer daysStreak;
+    private Integer daysStreak = 0;
 
     @Column
-    private Integer todaySessions;
+    private Integer todaySessions = 0;
 
     @Column
-    private Integer longestSession;
+    private Integer longestSession = 0;
 
     @Column
     private String mostProductiveSubject;
@@ -61,13 +62,13 @@ public class UserEntity {
     private Integer weeklyGoal;
 
     @Column
-    private Integer dailyGoal;
+    private Integer dailyGoal = 0;
 
     @Column
-    private Integer dailyStudyTime;
+    private Integer dailyStudyTime =0;
 
     @Column
-    private Integer avgSession;
+    private Integer avgSession = 0;
 
     @Column(nullable = false)
     private Boolean emailVerified = false;

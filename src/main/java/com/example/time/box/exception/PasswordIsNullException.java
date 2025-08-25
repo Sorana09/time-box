@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class PasswordIsNullException extends HttpException {
     public PasswordIsNullException() {
-        super(HttpStatus.NO_CONTENT, "Password is null");
+        super(HttpStatus.BAD_REQUEST, "Password is required");
     }
 }

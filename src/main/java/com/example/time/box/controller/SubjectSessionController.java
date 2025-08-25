@@ -1,5 +1,6 @@
 package com.example.time.box.controller;
 
+import com.example.time.box.domain.SubjectDto;
 import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.domain.mapper.Mapper;
 import com.example.time.box.entity.SubjectSession;
@@ -42,9 +43,10 @@ public class SubjectSessionController {
         subjectSessionService.restartSession(id);
     }
 
-    @PutMapping("/{id}/start")
-    public void setStartTime(@PathVariable(name = "id") Long id) {
-        subjectSessionService.setStartTime(id);
+    @PutMapping("/{subjectId}/start")
+    public ResponseEntity<SubjectSessionDto> setStartTime(@PathVariable(name = "subjectId") Long subjectId) {
+        SubjectSession saved = subjectSessionService.setStartTime(subjectId);
+        return ResponseEntity.ok(mapper(saved));
     }
 
     @PutMapping("/{id}/end")

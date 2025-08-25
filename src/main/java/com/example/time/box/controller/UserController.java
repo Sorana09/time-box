@@ -1,7 +1,10 @@
 package com.example.time.box.controller;
 
+import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.domain.UserDto;
+import com.example.time.box.domain.mapper.Mapper;
 import com.example.time.box.entity.request.UserSignUpRequest;
+import com.example.time.box.service.SubjectSessionService;
 import com.example.time.box.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,16 @@ import static com.example.time.box.domain.mapper.Mapper.mapper;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final SubjectSessionService subjectSessionService;
+
+    @GetMapping("/sessions/{userId}")
+    public ResponseEntity<List<SubjectSessionDto>> getAllSessionForAnUser(@PathVariable(name = "userId") Long userId) {
+        return ResponseEntity.ok().body(subjectSessionService
+                .getAllSubjectSessionsForAnUser(userId)
+                .stream()
+                .map(Mapper::mapper)
+                .toList());
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {

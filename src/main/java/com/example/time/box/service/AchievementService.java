@@ -38,11 +38,11 @@ public class AchievementService {
         return achievementRepository.save(achievement);
     }
 
-    public AchievementEntity createAchievement(String name, String description, String criteria, Long userId) {
+    public AchievementEntity createAchievement(String name, String description, Long subjectId, Long userId) {
         AchievementEntity achievement = new AchievementEntity();
         achievement.setName(name);
         achievement.setDescription(description);
-        achievement.setCriteria(criteria);
+        achievement.setSubjectId(subjectId);
         achievement.setUserId(userId);
         achievement.setCompleted(false);
 
@@ -53,7 +53,7 @@ public class AchievementService {
         AchievementEntity achievement = new AchievementEntity();
         achievement.setName(request.getName());
         achievement.setDescription(request.getDescription());
-        achievement.setCriteria(request.getCriteria());
+        achievement.setSubjectId(request.getSubjectId());
         achievement.setUserId(request.getUserId());
         achievement.setCompleted(false);
 

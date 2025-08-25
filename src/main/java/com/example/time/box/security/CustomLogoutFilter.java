@@ -23,10 +23,10 @@ public class CustomLogoutFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        if ("/sessions/".equals(httpRequest.getRequestURI()) &&
+        if ("/sessions".equals(httpRequest.getRequestURI()) &&
                 "DELETE".equals(httpRequest.getMethod())) {
 
-            httpRequest.getSession().invalidate();
+            // stateless: nothing to invalidate; rely on backend deletion by key
             Cookie cookie = new Cookie("JSESSIONID", "");
             cookie.setMaxAge(0);
             cookie.setPath("/");

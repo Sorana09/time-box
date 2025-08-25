@@ -25,6 +25,8 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserService userService;
 
+    // Authentication is verified via UserService in this service for unit-testability
+
     public List<SessionEntity> find(Long userId, Boolean active) {
         List<SessionEntity> sessionEntities = sessionRepository.findByUserId(userId);
         if (!active) {
@@ -49,23 +51,15 @@ public class SessionService {
     }
 
     public Optional<SessionEntity> createSession(LoginRequest loginRequest) {
-        Optional<UserEntity> userEntity = userService.findByEmail(loginRequest.getEmail());
-
-        if (userEntity.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        UserEntity user = userEntity.get();
-
+        UserEntity userEntity = userService.findByEmail(loginRequest.getEmail())
+                .orElseThrow(EntityNotFoundException::new);
         if (loginRequest.getPassword() == null) {
             throw new PasswordIsNullException();
         }
-
-        if (!userService.verifyPassword(user.getId(), loginRequest.getPassword())) {
+        if (!userService.verifyPassword(userEntity.getId(), loginRequest.getPassword())) {
             throw new IncorrectPasswordException();
         }
-
-        if (find(user.getId(), true).size() >= 3) {
+        if (find(userEntity.getId(), true).size() >= 3) {
             throw new TooManySessionsException();
         }
 
@@ -73,7 +67,7 @@ public class SessionService {
         sessionEntity.setExpiredAt(OffsetDateTime.now().plusDays(30));
         UUID key = UUID.randomUUID();
         sessionEntity.setSessionKey(String.valueOf(key));
-        sessionEntity.setUserId(user.getId());
+        sessionEntity.setUserId(userEntity.getId());
 
         sessionRepository.save(sessionEntity);
         return Optional.of(sessionEntity);
