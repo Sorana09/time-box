@@ -46,4 +46,7 @@ public class SubjectEntity {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubjectSession> subjectSessions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AchievementEntity> achievements = new ArrayList<>();
+
 }

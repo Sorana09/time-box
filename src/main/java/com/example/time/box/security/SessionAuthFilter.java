@@ -38,10 +38,6 @@ public class SessionAuthFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        if ("GET".equalsIgnoreCase(httpRequest.getMethod()) && uri.startsWith("/shared-session/")) {
-            chain.doFilter(request, response);
-            return;
-        }
 
         String sessionKey = httpRequest.getHeader("X-Session-Key");
         if (sessionKey == null || sessionKey.isEmpty()) {
