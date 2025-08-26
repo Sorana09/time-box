@@ -4,14 +4,12 @@ import com.example.time.box.entity.RoomEntity;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.CreateRoomRequest;
 import com.example.time.box.repository.RoomRepository;
-import com.example.time.box.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -31,8 +29,8 @@ public class RoomService {
         roomEntity.setParticipants(new ArrayList<>());
 
         Optional<UserEntity> user = userService.findByEmail(request.getCreatedBy());
-        if(user.isEmpty()) {
-                throw new IllegalArgumentException("User with email " + request.getCreatedBy() + " does not exist.");
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User with email " + request.getCreatedBy() + " does not exist.");
         }
         UserEntity userEntity = user.get();
         roomEntity.setCreatedBy(userEntity.getEmail());

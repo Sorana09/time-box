@@ -16,4 +16,5 @@ public class AchievementDto {
     private Long subjectId;
     private Boolean completed;
     private Long userId;
+    private java.time.OffsetDateTime deadline;
 }

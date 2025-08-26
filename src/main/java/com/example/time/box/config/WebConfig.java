@@ -2,13 +2,15 @@ package com.example.time.box.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.security.core.context.SecurityContextHolder.*;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -41,15 +43,13 @@ public class WebConfig implements WebMvcConfigurer {
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
                 String path = request.getRequestURI();
 
-                // Only enforce when a numeric userId appears in the path
                 Long pathUserId = extractUserIdFromPath(path);
                 if (pathUserId == null) {
                     return true;
                 }
 
-                // Read authenticated principal from Spring Security context
-                org.springframework.security.core.Authentication auth =
-                        org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+                Authentication auth =
+                        getContext().getAuthentication();
                 if (auth == null || auth.getPrincipal() == null) {
                     response.setStatus(401);
                     return false;

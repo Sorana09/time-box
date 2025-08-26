@@ -27,6 +27,10 @@ public class SessionService {
 
     // Authentication is verified via UserService in this service for unit-testability
 
+    public static Boolean isExpired(SessionEntity sessionEntity) {
+        return sessionEntity.getExpiredAt().isBefore(OffsetDateTime.now(ZoneOffset.UTC));
+    }
+
     public List<SessionEntity> find(Long userId, Boolean active) {
         List<SessionEntity> sessionEntities = sessionRepository.findByUserId(userId);
         if (!active) {
@@ -37,10 +41,6 @@ public class SessionService {
 
         }
         return sessionEntities.stream().filter(SessionService::isExpired).collect(Collectors.toList());
-    }
-
-    public static Boolean isExpired(SessionEntity sessionEntity) {
-        return sessionEntity.getExpiredAt().isBefore(OffsetDateTime.now(ZoneOffset.UTC));
     }
 
     public List<SessionEntity> getActiveSessions() {

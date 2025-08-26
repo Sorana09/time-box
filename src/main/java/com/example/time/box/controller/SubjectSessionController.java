@@ -1,10 +1,8 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.SubjectDto;
 import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.domain.mapper.Mapper;
 import com.example.time.box.entity.SubjectSession;
-import com.example.time.box.entity.request.SubjectCreateRequest;
 import com.example.time.box.entity.request.SubjectSessionRequest;
 import com.example.time.box.service.SubjectSessionService;
 import lombok.AllArgsConstructor;

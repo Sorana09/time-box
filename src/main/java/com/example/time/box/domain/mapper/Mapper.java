@@ -69,9 +69,9 @@ public class Mapper {
                 .subjectId(achievementEntity.getSubjectId())
                 .completed(achievementEntity.getCompleted())
                 .userId(achievementEntity.getUserId())
+                .deadline(achievementEntity.getDeadline())
                 .build();
     }
-
 
 
 }

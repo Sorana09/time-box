@@ -1,8 +1,6 @@
 package com.example.time.box.service;
 
 
-import com.example.time.box.domain.SubjectDto;
-import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.request.SubjectSessionRequest;
@@ -15,9 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
 
 
 @Service

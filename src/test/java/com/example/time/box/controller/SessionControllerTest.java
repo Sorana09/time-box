@@ -1,6 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.SessionDto;
 import com.example.time.box.entity.SessionEntity;
 import com.example.time.box.entity.request.LoginRequest;
 import com.example.time.box.security.TestSecurityConfig;
@@ -39,20 +38,6 @@ class SessionControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Configuration
-    static class TestConfig {
-        @Bean
-        public SessionService sessionService() {
-            return mock(SessionService.class);
-        }
-
-        @Bean
-        public SessionController sessionController(SessionService sessionService) {
-            return new SessionController(sessionService);
-        }
-    }
-
     private SessionEntity sessionEntity;
     private List<SessionEntity> sessionEntities;
     private LoginRequest loginRequest;
@@ -166,5 +151,18 @@ class SessionControllerTest {
                 .andExpect(jsonPath("$[1].sessionKey").value("test-session-key-2"));
 
         verify(sessionService, times(1)).getActiveSessions();
+    }
+
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public SessionService sessionService() {
+            return mock(SessionService.class);
+        }
+
+        @Bean
+        public SessionController sessionController(SessionService sessionService) {
+            return new SessionController(sessionService);
+        }
     }
 }

@@ -12,8 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.lang.reflect.Method;
-
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class SystemAspect {
     private final SystemMetric systemMetric;
 
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *) || " +
-              "within(@org.springframework.stereotype.Controller *)")
+            "within(@org.springframework.stereotype.Controller *)")
     public void controllerPointcut() {
     }
 
@@ -36,15 +34,15 @@ public class SystemAspect {
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String endpoint = getEndpoint(joinPoint);
         String httpMethod = getHttpMethod(joinPoint);
-        
+
         systemMetric.countApiCall(endpoint, httpMethod);
-        
+
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
-        
+
         systemMetric.recordOperationTime("api." + className + "." + methodName, endTime - startTime);
-        
+
         return result;
     }
 
@@ -53,15 +51,15 @@ public class SystemAspect {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String queryType = getQueryType(methodName);
-        
+
         systemMetric.countDatabaseQuery(queryType);
-        
+
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
-        
+
         systemMetric.recordOperationTime("db." + className + "." + methodName, endTime - startTime);
-        
+
         return result;
     }
 

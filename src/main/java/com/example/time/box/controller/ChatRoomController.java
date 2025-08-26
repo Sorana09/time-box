@@ -1,6 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.entity.ChatMessage;
 import com.example.time.box.entity.RoomEntity;
 import com.example.time.box.service.RoomService;
 import lombok.AllArgsConstructor;

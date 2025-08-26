@@ -3,7 +3,6 @@
 <!-- HEADER STYLE: CLASSIC -->
 <div align="center">
 
-
 # TIME-BOX
 
 <em>Master Time, Unlock Your Full Potential</em>
@@ -33,9 +32,9 @@
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
 - [Security](#security)
 - [Monitoring and Observability](#monitoring-and-observability)
@@ -44,42 +43,51 @@
 
 ## Overview
 
-Time-Box is a comprehensive time management and productivity tracking system designed to help users monitor and optimize their study and work sessions. The application allows users to track their time spent on different subjects, set goals, monitor progress, and earn achievements for their productivity.
+Time-Box is a comprehensive time management and productivity tracking system designed to help users monitor and optimize
+their study and work sessions. The application allows users to track their time spent on different subjects, set goals,
+monitor progress, and earn achievements for their productivity.
 
 With Time-Box, users can:
+
 - Track study/work sessions by subject
 - Set daily and weekly goals
 - Monitor productivity metrics
 - Analyze performance trends
 
-Whether you're a student trying to optimize your study schedule or a professional tracking work productivity, Time-Box provides the tools to help you manage your time effectively and achieve your goals.
+Whether you're a student trying to optimize your study schedule or a professional tracking work productivity, Time-Box
+provides the tools to help you manage your time effectively and achieve your goals.
 
 ## Features
 
 ### User Management
+
 - User registration and authentication
 - Profile management
 
 ### Time Tracking
+
 - Session tracking by subject
 - Daily and weekly goal setting
 - Productivity metrics:
-  - Time studied
-  - Days streak
-  - Average session length
-  - Longest session
-  - Most productive subject
+    - Time studied
+    - Days streak
+    - Average session length
+    - Longest session
+    - Most productive subject
 
 ### Subject Management
+
 - Create and manage subjects/topics
 - Track time spent per subject
 - Identify most productive subjects
 
 ### Achievement System
+
 - Earn achievements for productivity milestones
 - Track progress towards achievements
 
 ### Analytics
+
 - View productivity trends
 - Analyze time spent by subject
 - Track goal completion
@@ -87,6 +95,7 @@ Whether you're a student trying to optimize your study schedule or a professiona
 ## Technology Stack
 
 ### Backend
+
 - **Language**: Java 21
 - **Framework**: Spring Boot 3.4.4
 - **Database**: PostgreSQL
@@ -95,14 +104,15 @@ Whether you're a student trying to optimize your study schedule or a professiona
 - **Build Tool**: Maven
 
 ### DevOps & Infrastructure
+
 - **Containerization**: Docker
 - **Container Orchestration**: Docker Compose
-- **Monitoring**: 
-  - Spring Boot Actuator
-  - Micrometer
-  - Prometheus
-  - OpenTelemetry
-  - Grafana
+- **Monitoring**:
+    - Spring Boot Actuator
+    - Micrometer
+    - Prometheus
+    - OpenTelemetry
+    - Grafana
 
 ## Project Structure
 
@@ -164,13 +174,15 @@ To run this application, you need:
 
 #### Using Docker Compose (Recommended)
 
-The easiest way to run the application is using Docker Compose, which will set up the application, database, and monitoring tools:
+The easiest way to run the application is using Docker Compose, which will set up the application, database, and
+monitoring tools:
 
 ```sh
 docker-compose up -d
 ```
 
 This will start:
+
 - PostgreSQL database
 - Time-Box application
 - OpenTelemetry with Grafana for monitoring
@@ -236,19 +248,27 @@ The monitoring dashboard is available at http://localhost:3001 when running with
 
 ## Architecture and Design Patterns
 
-To make the code easier to understand and maintain, the project applies a simple, explicit design pattern in the WebSocket messaging area:
+To make the code easier to understand and maintain, the project applies a simple, explicit design pattern in the
+WebSocket messaging area:
 
-- Factory Method: A ChatMessageFactory centralizes creation of ChatMessage objects for common cases (CHAT, JOIN, LEAVE). This removes message-building details from listeners/controllers and makes the intent clearer.
+- Factory Method: A ChatMessageFactory centralizes creation of ChatMessage objects for common cases (CHAT, JOIN, LEAVE).
+  This removes message-building details from listeners/controllers and makes the intent clearer.
 
 Where to look:
+
 - ChatMessageFactory: src/main/java/com/example/time/box/domain/factory/ChatMessageFactory.java
 - Usage example: src/main/java/com/example/time/box/event/WebSocketEventListener.java
 
 Benefits:
-- Single responsibility: WebSocketEventListener focuses on handling events, while the factory handles message construction.
+
+- Single responsibility: WebSocketEventListener focuses on handling events, while the factory handles message
+  construction.
 - Consistency: All emitted messages are created in the same way (timestamp/type fields are consistently set).
 - Extensibility: New message variants can be added in one place.
 
 Additional Organization Notes:
-- The project uses a layered structure (controller, service, repository, security, etc.) with domain separated from persistence entities.
-- For future refactors, consider extracting use-case (application service) classes for complex flows and introducing Strategy for pluggable policies when requirements grow.
+
+- The project uses a layered structure (controller, service, repository, security, etc.) with domain separated from
+  persistence entities.
+- For future refactors, consider extracting use-case (application service) classes for complex flows and introducing
+  Strategy for pluggable policies when requirements grow.

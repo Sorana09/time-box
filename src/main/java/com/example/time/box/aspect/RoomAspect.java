@@ -25,8 +25,8 @@ public class RoomAspect {
     }
 
     @AfterReturning(
-        pointcut = "execution(* com.example.time.box.service.RoomService.findByInvitationToken(String))",
-        returning = "result")
+            pointcut = "execution(* com.example.time.box.service.RoomService.findByInvitationToken(String))",
+            returning = "result")
     public void afterRoomAccessed(JoinPoint joinPoint, Object result) {
         if (result instanceof java.util.Optional && ((java.util.Optional<?>) result).isPresent()) {
             String token = (String) joinPoint.getArgs()[0];
@@ -35,13 +35,13 @@ public class RoomAspect {
     }
 
     @AfterReturning(
-        pointcut = "execution(* com.example.time.box.service.RoomService.saveRoom(..)) && args(room)",
-        argNames = "room")
+            pointcut = "execution(* com.example.time.box.service.RoomService.saveRoom(..)) && args(room)",
+            argNames = "room")
     public void afterRoomSaved(RoomEntity room) {
         if (room.getIsActive() != null) {
             roomMetric.countRoomStatusChange(room.getIsActive());
         }
-        
+
         if (room.getChatEnabled() != null) {
             roomMetric.countChatStatusChange(room.getChatEnabled());
         }

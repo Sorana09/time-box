@@ -34,7 +34,11 @@ public class SessionAuthFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        if (uri.startsWith("/auth/") || uri.startsWith("/actuator/") || uri.startsWith("/ws-chat/") || uri.startsWith("/topic/") || uri.startsWith("/app/")) {
+        if (uri.startsWith("/auth/") || uri.startsWith("/actuator/") || uri.startsWith("/app/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        if ("GET".equalsIgnoreCase(httpRequest.getMethod()) && uri.startsWith("/shared-session/")) {
             chain.doFilter(request, response);
             return;
         }
@@ -53,9 +57,14 @@ public class SessionAuthFilter implements Filter {
 
         Authentication auth = new AbstractAuthenticationToken(List.of(new SimpleGrantedAuthority("ROLE_USER"))) {
             @Override
-            public Object getCredentials() { return sessionKey; }
+            public Object getCredentials() {
+                return sessionKey;
+            }
+
             @Override
-            public Object getPrincipal() { return session.getUserId(); }
+            public Object getPrincipal() {
+                return session.getUserId();
+            }
         };
         ((AbstractAuthenticationToken) auth).setAuthenticated(true);
         SecurityContextHolder.getContext().setAuthentication(auth);

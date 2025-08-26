@@ -14,4 +14,5 @@ public class AchievementCreateRequest {
     private String description;
     private Long subjectId;
     private Long userId;
+    private java.time.OffsetDateTime deadline;
 }

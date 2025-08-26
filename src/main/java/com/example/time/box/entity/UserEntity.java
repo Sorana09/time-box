@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class UserEntity {
     private Integer dailyGoal = 0;
 
     @Column
-    private Integer dailyStudyTime =0;
+    private Integer dailyStudyTime = 0;
 
     @Column
     private Integer avgSession = 0;

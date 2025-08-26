@@ -91,7 +91,7 @@ class InvitationServiceTest {
         newRoom.setIsActive(true);
         newRoom.setChatEnabled(true);
         newRoom.setParticipants(new ArrayList<>());
-        
+
         when(roomService.saveRoom(any(RoomEntity.class))).thenReturn(newRoom);
 
         // Act

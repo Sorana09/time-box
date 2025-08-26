@@ -3,7 +3,6 @@ package com.example.time.box.controller;
 import com.example.time.box.domain.SessionDto;
 import com.example.time.box.entity.request.LoginRequest;
 import com.example.time.box.service.SessionService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

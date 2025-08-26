@@ -10,22 +10,22 @@ services:
     ports:
       - "5432:5432"
 
-#   time-box:
-#     container_name: time-box
-#     restart: always
-#     depends_on:
-#       - postgres
-#     ports:
-#       - "8100:8080"
+  #   time-box:
+  #     container_name: time-box
+  #     restart: always
+  #     depends_on:
+  #       - postgres
+  #     ports:
+  #       - "8100:8080"
 
   otel-lotel-lgtm:
-     container_name: time-box_otel1
-     image: grafana/otel-lgtm:latest
-     restart: always
-     ports:
-       - "3002:3000"
-       - "4317:4317"
-       - "4318:4318"
+    container_name: time-box_otel1
+    image: grafana/otel-lgtm:latest
+    restart: always
+    ports:
+      - "3002:3000"
+      - "4317:4317"
+      - "4318:4318"
 
 networks:
   time-box:

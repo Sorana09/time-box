@@ -29,18 +29,18 @@ public class AchievementAspect {
     }
 
     @AfterReturning("execution(* com.example.time.box.controller.AchievementController.getAllAchievements(..)) || " +
-                    "execution(* com.example.time.box.controller.AchievementController.getAllAchievementsByUserId(..)) || " +
-                    "execution(* com.example.time.box.controller.AchievementController.getCompletedAchievementsByUserId(..)) || " +
-                    "execution(* com.example.time.box.controller.AchievementController.getIncompleteAchievementsByUserId(..))")
+            "execution(* com.example.time.box.controller.AchievementController.getAllAchievementsByUserId(..)) || " +
+            "execution(* com.example.time.box.controller.AchievementController.getCompletedAchievementsByUserId(..)) || " +
+            "execution(* com.example.time.box.controller.AchievementController.getIncompleteAchievementsByUserId(..))")
     public void afterAchievementViewed() {
         viewAchievementMetric.countAchievementViewed();
     }
 
     @AfterReturning(
-        pointcut = "execution(* com.example.time.box.controller.AchievementController.getAllAchievementsByUserId(Long)) || " +
-                  "execution(* com.example.time.box.controller.AchievementController.getCompletedAchievementsByUserId(Long)) || " +
-                  "execution(* com.example.time.box.controller.AchievementController.getIncompleteAchievementsByUserId(Long))",
-        returning = "result")
+            pointcut = "execution(* com.example.time.box.controller.AchievementController.getAllAchievementsByUserId(Long)) || " +
+                    "execution(* com.example.time.box.controller.AchievementController.getCompletedAchievementsByUserId(Long)) || " +
+                    "execution(* com.example.time.box.controller.AchievementController.getIncompleteAchievementsByUserId(Long))",
+            returning = "result")
     public void afterUserAchievementsRetrieved(JoinPoint joinPoint, Object result) {
         Long userId = (Long) joinPoint.getArgs()[0];
         viewAchievementMetric.registerAchievementForUser(userId, 0L);

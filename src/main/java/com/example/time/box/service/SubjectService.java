@@ -7,7 +7,6 @@ import com.example.time.box.entity.request.SubjectCreateRequest;
 import com.example.time.box.exception.EntityNotFoundException;
 import com.example.time.box.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Entity
 @Table(name = "achievements")
 @Data
@@ -31,6 +33,9 @@ public class AchievementEntity {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    @Column(name = "deadline")
+    private OffsetDateTime deadline;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)

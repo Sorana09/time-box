@@ -4,7 +4,6 @@ import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignUpRequest;
-import com.example.time.box.exception.EntityNotFoundException;
 import com.example.time.box.exception.PasswordIsNullException;
 import com.example.time.box.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.SubjectSessionDto;
 import com.example.time.box.entity.SubjectSession;
 import com.example.time.box.entity.request.SubjectSessionRequest;
 import com.example.time.box.security.TestSecurityConfig;
@@ -20,7 +19,8 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,20 +37,6 @@ class SubjectSessionControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Configuration
-    static class TestConfig {
-        @Bean
-        public SubjectSessionService subjectSessionService() {
-            return mock(SubjectSessionService.class);
-        }
-
-        @Bean
-        public SubjectSessionController subjectSessionController(SubjectSessionService subjectSessionService) {
-            return new SubjectSessionController(subjectSessionService);
-        }
-    }
-
     private SubjectSession subjectSession;
     private List<SubjectSession> subjectSessions;
     private SubjectSessionRequest subjectSessionRequest;
@@ -174,5 +160,18 @@ class SubjectSessionControllerTest {
                 .andExpect(status().isOk());
 
         verify(subjectSessionService, times(1)).deleteSubjectSession(1L);
+    }
+
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public SubjectSessionService subjectSessionService() {
+            return mock(SubjectSessionService.class);
+        }
+
+        @Bean
+        public SubjectSessionController subjectSessionController(SubjectSessionService subjectSessionService) {
+            return new SubjectSessionController(subjectSessionService);
+        }
     }
 }

@@ -1,4 +1,3 @@
-
 services:
   timebox-postgres:
     image: postgres:latest

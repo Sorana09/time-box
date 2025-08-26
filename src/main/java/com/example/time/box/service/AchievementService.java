@@ -56,6 +56,7 @@ public class AchievementService {
         achievement.setSubjectId(request.getSubjectId());
         achievement.setUserId(request.getUserId());
         achievement.setCompleted(false);
+        achievement.setDeadline(request.getDeadline());
 
         return achievementRepository.save(achievement);
     }

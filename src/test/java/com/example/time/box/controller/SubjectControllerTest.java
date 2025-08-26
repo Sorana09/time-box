@@ -1,6 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.SubjectDto;
 import com.example.time.box.entity.SubjectEntity;
 import com.example.time.box.entity.request.SubjectCreateRequest;
 import com.example.time.box.security.TestSecurityConfig;
@@ -36,20 +35,6 @@ class SubjectControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Configuration
-    static class TestConfig {
-        @Bean
-        public SubjectService subjectService() {
-            return mock(SubjectService.class);
-        }
-
-        @Bean
-        public SubjectController subjectController(SubjectService subjectService) {
-            return new SubjectController(subjectService);
-        }
-    }
-
     private SubjectEntity subjectEntity;
     private List<SubjectEntity> subjectEntities;
     private SubjectCreateRequest createRequest;
@@ -171,5 +156,18 @@ class SubjectControllerTest {
                 .andExpect(status().isOk());
 
         verify(subjectService, times(1)).deleteById(1L);
+    }
+
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public SubjectService subjectService() {
+            return mock(SubjectService.class);
+        }
+
+        @Bean
+        public SubjectController subjectController(SubjectService subjectService) {
+            return new SubjectController(subjectService);
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.AchievementDto;
-import com.example.time.box.domain.mapper.Mapper;
 import com.example.time.box.entity.AchievementEntity;
 import com.example.time.box.entity.request.AchievementCreateRequest;
 import com.example.time.box.security.TestSecurityConfig;
@@ -9,7 +7,6 @@ import com.example.time.box.service.AchievementService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
@@ -39,20 +36,6 @@ class AchievementControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Configuration
-    static class TestConfig {
-        @Bean
-        public AchievementService achievementService() {
-            return mock(AchievementService.class);
-        }
-
-        @Bean
-        public AchievementController achievementController(AchievementService achievementService) {
-            return new AchievementController(achievementService);
-        }
-    }
-
     private AchievementEntity achievementEntity;
     private List<AchievementEntity> achievementEntities;
     private AchievementCreateRequest createRequest;
@@ -183,5 +166,18 @@ class AchievementControllerTest {
                 .andExpect(status().isOk());
 
         verify(achievementService, times(1)).deleteById(1L);
+    }
+
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public AchievementService achievementService() {
+            return mock(AchievementService.class);
+        }
+
+        @Bean
+        public AchievementController achievementController(AchievementService achievementService) {
+            return new AchievementController(achievementService);
+        }
     }
 }

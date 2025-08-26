@@ -1,11 +1,6 @@
-
 package com.example.time.box.security;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +21,6 @@ public class CustomLogoutFilter implements Filter {
         if ("/sessions".equals(httpRequest.getRequestURI()) &&
                 "DELETE".equals(httpRequest.getMethod())) {
 
-            // stateless: nothing to invalidate; rely on backend deletion by key
             Cookie cookie = new Cookie("JSESSIONID", "");
             cookie.setMaxAge(0);
             cookie.setPath("/");

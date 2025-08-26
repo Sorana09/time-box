@@ -20,13 +20,13 @@ public class InvitationService {
 
     public InvitationEntity createInvitation(CreateInvitationRequest request) {
         InvitationEntity invitation = InvitationEntity.builder()
-            .invitedEmail(request.getInvitedEmail())
-            .description(request.getDescription())
-            .invitedBy(request.getInvitedBy())
-            .createdAt(OffsetDateTime.now())
-            .accepted(false)
-            .invitationToken(UUID.randomUUID().toString())
-            .build();
+                .invitedEmail(request.getInvitedEmail())
+                .description(request.getDescription())
+                .invitedBy(request.getInvitedBy())
+                .createdAt(OffsetDateTime.now())
+                .accepted(false)
+                .invitationToken(UUID.randomUUID().toString())
+                .build();
 
         return invitationRepository.save(invitation);
     }

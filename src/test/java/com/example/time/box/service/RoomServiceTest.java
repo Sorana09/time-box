@@ -37,12 +37,12 @@ class RoomServiceTest {
     void createRoom_ShouldCreateRoomWithInvitationToken() {
         // Arrange
         CreateRoomRequest request = new CreateRoomRequest("user@example.com", "Test room");
-        
+
         UserEntity user = new UserEntity();
         user.setEmail("user@example.com");
-        
+
         when(userService.findByEmail("user@example.com")).thenReturn(Optional.of(user));
-        
+
         RoomEntity savedRoom = new RoomEntity();
         savedRoom.setId(1L);
         savedRoom.setDescription(request.getDescription());
@@ -52,7 +52,7 @@ class RoomServiceTest {
         savedRoom.setChatEnabled(true);
         savedRoom.setParticipants(new ArrayList<>());
         savedRoom.getParticipants().add(user.getEmail());
-        
+
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(savedRoom);
 
         // Act
@@ -73,11 +73,11 @@ class RoomServiceTest {
     void findByInvitationToken_ShouldReturnRoom_WhenRoomExists() {
         // Arrange
         String token = "test-token";
-        
+
         RoomEntity room = new RoomEntity();
         room.setId(1L);
         room.setInvitationToken(token);
-        
+
         when(roomRepository.findByInvitationToken(token)).thenReturn(Optional.of(room));
 
         // Act
@@ -94,12 +94,12 @@ class RoomServiceTest {
         // Arrange
         String token = "test-token";
         String userEmail = "user@example.com";
-        
+
         RoomEntity room = new RoomEntity();
         room.setId(1L);
         room.setInvitationToken(token);
         room.setParticipants(new ArrayList<>());
-        
+
         when(roomRepository.findByInvitationToken(token)).thenReturn(Optional.of(room));
         when(roomRepository.save(any(RoomEntity.class))).thenReturn(room);
 
@@ -118,7 +118,7 @@ class RoomServiceTest {
         // Arrange
         String token = "test-token";
         String userEmail = "user@example.com";
-        
+
         when(roomRepository.findByInvitationToken(token)).thenReturn(Optional.empty());
 
         // Act & Assert

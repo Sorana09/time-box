@@ -1,6 +1,5 @@
 package com.example.time.box.controller;
 
-import com.example.time.box.domain.UserDto;
 import com.example.time.box.entity.UserEntity;
 import com.example.time.box.entity.request.UserSignUpRequest;
 import com.example.time.box.security.TestSecurityConfig;
@@ -37,25 +36,6 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Configuration
-    static class TestConfig {
-        @Bean
-        public UserService userService() {
-            return mock(UserService.class);
-        }
-
-        @Bean
-        public com.example.time.box.service.SubjectSessionService subjectSessionService() {
-            return mock(com.example.time.box.service.SubjectSessionService.class);
-        }
-
-        @Bean
-        public UserController userController(UserService userService, com.example.time.box.service.SubjectSessionService subjectSessionService) {
-            return new UserController(userService, subjectSessionService);
-        }
-    }
-
     private UserEntity userEntity;
     private List<UserEntity> userEntities;
     private UserSignUpRequest signUpRequest;
@@ -281,5 +261,23 @@ class UserControllerTest {
                 .andExpect(content().string("120"));
 
         verify(userService, times(1)).getDailyStudyTime(1L);
+    }
+
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public UserService userService() {
+            return mock(UserService.class);
+        }
+
+        @Bean
+        public com.example.time.box.service.SubjectSessionService subjectSessionService() {
+            return mock(com.example.time.box.service.SubjectSessionService.class);
+        }
+
+        @Bean
+        public UserController userController(UserService userService, com.example.time.box.service.SubjectSessionService subjectSessionService) {
+            return new UserController(userService, subjectSessionService);
+        }
     }
 }

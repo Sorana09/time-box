@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface InvitationRepository extends JpaRepository<InvitationEntity,Long> {
+public interface InvitationRepository extends JpaRepository<InvitationEntity, Long> {
     Optional<InvitationEntity> findByInvitationToken(String invitationToken);
 }

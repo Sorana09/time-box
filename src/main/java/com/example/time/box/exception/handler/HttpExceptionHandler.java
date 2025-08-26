@@ -30,8 +30,8 @@ public class HttpExceptionHandler {
     ResponseEntity<HttpExceptionResponse> handleHttpMediaTypeNotSupportedException(final HttpMediaTypeNotSupportedException e) {
         log.warn("Unsupported media type: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(
-                new HttpExceptionResponse(new HttpException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, 
-                "Unsupported media type. Please use application/json for request body or application/x-www-form-urlencoded for form data."))
+                new HttpExceptionResponse(new HttpException(HttpStatus.UNSUPPORTED_MEDIA_TYPE,
+                        "Unsupported media type. Please use application/json for request body or application/x-www-form-urlencoded for form data."))
         );
     }
 

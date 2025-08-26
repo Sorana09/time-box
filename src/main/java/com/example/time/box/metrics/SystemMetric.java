@@ -1,10 +1,6 @@
 package com.example.time.box.metrics;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Tag;
-import io.micrometer.core.instrument.Tags;
-import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
