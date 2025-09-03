@@ -1,5 +1,6 @@
 package com.example.time.box.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,7 @@ public class SubjectSession {
 
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false, insertable = false, updatable = false)
+    @JsonBackReference
     private SubjectEntity subject;
 
 }

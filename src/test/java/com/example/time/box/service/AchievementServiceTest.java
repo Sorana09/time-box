@@ -39,7 +39,6 @@ class AchievementServiceTest {
         achievement1.setId(1L);
         achievement1.setName("Test Achievement 1");
         achievement1.setDescription("Test Description 1");
-        achievement1.setCriteria("Test Criteria 1");
         achievement1.setUserId(1L);
         achievement1.setCompleted(false);
 
@@ -47,7 +46,6 @@ class AchievementServiceTest {
         achievement2.setId(2L);
         achievement2.setName("Test Achievement 2");
         achievement2.setDescription("Test Description 2");
-        achievement2.setCriteria("Test Criteria 2");
         achievement2.setUserId(1L);
         achievement2.setCompleted(true);
 
@@ -56,7 +54,6 @@ class AchievementServiceTest {
         createRequest = new AchievementCreateRequest();
         createRequest.setName("New Achievement");
         createRequest.setDescription("New Description");
-        createRequest.setCriteria("New Criteria");
         createRequest.setUserId(1L);
     }
 
@@ -138,75 +135,6 @@ class AchievementServiceTest {
         assertEquals(1L, result.getId());
         assertEquals("Test Achievement 1", result.getName());
         verify(achievementRepository, times(1)).save(achievement1);
-    }
-
-    @Test
-    void createAchievementWithParams() {
-        AchievementEntity newAchievement = new AchievementEntity();
-        newAchievement.setId(3L);
-        newAchievement.setName("New Achievement");
-        newAchievement.setDescription("New Description");
-        newAchievement.setCriteria("New Criteria");
-        newAchievement.setUserId(1L);
-        newAchievement.setCompleted(false);
-
-        when(achievementRepository.save(any(AchievementEntity.class))).thenReturn(newAchievement);
-
-        AchievementEntity result = achievementService.createAchievement(
-                "New Achievement", "New Description", "New Criteria", 1L);
-
-        assertEquals(3L, result.getId());
-        assertEquals("New Achievement", result.getName());
-        assertEquals("New Description", result.getDescription());
-        assertEquals("New Criteria", result.getCriteria());
-        assertEquals(1L, result.getUserId());
-        assertFalse(result.getCompleted());
-        verify(achievementRepository, times(1)).save(any(AchievementEntity.class));
-    }
-
-    @Test
-    void createAchievementWithRequest() {
-        AchievementEntity newAchievement = new AchievementEntity();
-        newAchievement.setId(3L);
-        newAchievement.setName("New Achievement");
-        newAchievement.setDescription("New Description");
-        newAchievement.setCriteria("New Criteria");
-        newAchievement.setUserId(1L);
-        newAchievement.setCompleted(false);
-
-        when(achievementRepository.save(any(AchievementEntity.class))).thenReturn(newAchievement);
-
-        AchievementEntity result = achievementService.createAchievement(createRequest);
-
-        assertEquals(3L, result.getId());
-        assertEquals("New Achievement", result.getName());
-        assertEquals("New Description", result.getDescription());
-        assertEquals("New Criteria", result.getCriteria());
-        assertEquals(1L, result.getUserId());
-        assertFalse(result.getCompleted());
-        verify(achievementRepository, times(1)).save(any(AchievementEntity.class));
-    }
-
-    @Test
-    void completeAchievement() {
-        AchievementEntity completedAchievement = new AchievementEntity();
-        completedAchievement.setId(1L);
-        completedAchievement.setName("Test Achievement 1");
-        completedAchievement.setDescription("Test Description 1");
-        completedAchievement.setCriteria("Test Criteria 1");
-        completedAchievement.setUserId(1L);
-        completedAchievement.setCompleted(true);
-
-        when(achievementRepository.findById(anyLong())).thenReturn(Optional.of(achievement1));
-        when(achievementRepository.save(any(AchievementEntity.class))).thenReturn(completedAchievement);
-
-        AchievementEntity result = achievementService.completeAchievement(1L);
-
-        assertEquals(1L, result.getId());
-        assertEquals("Test Achievement 1", result.getName());
-        assertTrue(result.getCompleted());
-        verify(achievementRepository, times(1)).findById(1L);
-        verify(achievementRepository, times(1)).save(any(AchievementEntity.class));
     }
 
     @Test

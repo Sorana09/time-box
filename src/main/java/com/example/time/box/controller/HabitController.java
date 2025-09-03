@@ -4,6 +4,7 @@ import com.example.time.box.entity.HabitCompletion;
 import com.example.time.box.entity.HabitEntity;
 import com.example.time.box.service.HabitService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/habits")
 @AllArgsConstructor
+@Slf4j
 public class HabitController {
 
     private final HabitService habitService;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Habit controller is working!");
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity<String> testPost(@RequestBody String testData) {
+        log.info("Received test data: {}", testData);
+        return ResponseEntity.ok("Received: " + testData);
+    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<HabitEntity>> getUserHabits(@PathVariable(name = "userId") Long userId) {
@@ -42,7 +55,7 @@ public class HabitController {
     @PostMapping("/{habitId}/mark-completion")
     public ResponseEntity<HabitCompletion> markCompletions(
             @PathVariable(name = "habitId") Long habitId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate date,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam Boolean completed
     ) {
         return ResponseEntity.ok().body(habitService.markCompletion(habitId, date, completed));
@@ -51,8 +64,8 @@ public class HabitController {
     @GetMapping("/{habitId}/completions")
     public ResponseEntity<List<HabitCompletion>> getCompletions(
             @PathVariable(name = "habitId") Long habitId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         return ResponseEntity.ok().body(habitService.getCompletions(habitId, startDate, endDate));
     }

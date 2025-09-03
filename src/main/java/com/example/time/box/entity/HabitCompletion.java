@@ -1,5 +1,6 @@
 package com.example.time.box.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +28,16 @@ public class HabitCompletion {
 
     @ManyToOne
     @JoinColumn(name = "habit_id")
+    @JsonBackReference
     private HabitEntity habit;
+    
+    @Override
+    public String toString() {
+        return "HabitCompletion{" +
+                "id=" + id +
+                ", completionDate=" + completionDate +
+                ", completed=" + completed +
+                ", habitId=" + (habit != null ? habit.getId() : "null") +
+                '}';
+    }
 }

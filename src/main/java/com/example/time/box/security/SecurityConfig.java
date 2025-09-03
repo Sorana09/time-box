@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(OPTIONS, "/**").permitAll()
                         .requestMatchers(POST, "/sessions/**").permitAll()
                         .requestMatchers(POST, "/auth/google").permitAll()
+                        .requestMatchers("/habits/**").permitAll() // Allow habits endpoints
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
@@ -64,7 +65,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(java.util.List.of("http://localhost:3000"));
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(java.util.List.of("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "X-CSRF-Token", "X-Session-Key"));
+        configuration.setAllowedHeaders(java.util.List.of("*")); // Allow all headers including Content-Type
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(java.util.List.of("Authorization", "Content-Disposition"));
 

@@ -54,7 +54,6 @@ class AchievementRepositoryTest {
         achievement1 = AchievementEntity.builder()
                 .name("Achievement 1")
                 .description("Description 1")
-                .criteria("Criteria 1")
                 .completed(true)
                 .userId(user1.getId())
                 .build();
@@ -62,7 +61,6 @@ class AchievementRepositoryTest {
         achievement2 = AchievementEntity.builder()
                 .name("Achievement 2")
                 .description("Description 2")
-                .criteria("Criteria 2")
                 .completed(false)
                 .userId(user1.getId())
                 .build();
@@ -70,7 +68,6 @@ class AchievementRepositoryTest {
         achievement3 = AchievementEntity.builder()
                 .name("Achievement 3")
                 .description("Description 3")
-                .criteria("Criteria 3")
                 .completed(true)
                 .userId(user2.getId())
                 .build();
