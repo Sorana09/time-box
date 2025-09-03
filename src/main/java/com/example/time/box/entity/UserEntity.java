@@ -92,6 +92,6 @@ public class UserEntity {
     private List<AchievementEntity> achievements = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-habits")
     private List<HabitEntity> habits = new ArrayList<>();
 }

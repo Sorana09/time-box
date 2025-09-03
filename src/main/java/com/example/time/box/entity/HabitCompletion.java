@@ -28,9 +28,9 @@ public class HabitCompletion {
 
     @ManyToOne
     @JoinColumn(name = "habit_id")
-    @JsonBackReference
+    @JsonBackReference(value = "habit-completions")
     private HabitEntity habit;
-    
+
     @Override
     public String toString() {
         return "HabitCompletion{" +

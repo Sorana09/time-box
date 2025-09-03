@@ -33,21 +33,16 @@ public class HabitService {
 
     public HabitEntity createHabit(HabitEntity habit) {
         log.info("Creating habit: {}", habit);
-        
-        if (habit.getUser() == null) {
-            log.error("User is null in habit: {}", habit);
-            throw new IllegalArgumentException("User cannot be null");
-        }
-        
-        if (habit.getUser().getId() == null) {
+
+        if (habit.getUserId() == null) {
             log.error("User ID is null in habit: {}", habit);
             throw new IllegalArgumentException("User ID cannot be null");
         }
-        
-        log.info("Looking for user with ID: {}", habit.getUser().getId());
-        UserEntity user = userRepository.findById(habit.getUser().getId())
+
+        log.info("Looking for user with ID: {}", habit.getUserId());
+        UserEntity user = userRepository.findById(habit.getUserId())
                 .orElseThrow(() -> {
-                    log.error("User not found with ID: {}", habit.getUser().getId());
+                    log.error("User not found with ID: {}", habit.getUserId());
                     return new EntityNotFoundException();
                 });
 
@@ -58,16 +53,18 @@ public class HabitService {
         habitEntity.setTargetCount(habit.getTargetCount());
         habitEntity.setStartDate(habit.getStartDate());
         habitEntity.setActive(habit.isActive());
-        habitEntity.setUser(user);
+        habitEntity.setUserId(habit.getUserId());
 
         log.info("Saving habit entity: {}", habitEntity);
         HabitEntity savedHabit = habitRepository.save(habitEntity);
         log.info("Saved habit with ID: {}", savedHabit.getId());
-        
+
         return savedHabit;
     }
 
     public HabitEntity updateHabit(Long id, HabitEntity habitDetails){
+        log.info("Updating habit with ID {}: {}", id, habitDetails);
+
         HabitEntity habitEntity = habitRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         habitEntity.setName(habitDetails.getName());
         habitEntity.setDescription(habitDetails.getDescription());
@@ -75,7 +72,11 @@ public class HabitService {
         habitEntity.setTargetCount(habitDetails.getTargetCount());
         habitEntity.setActive(habitDetails.isActive());
 
-        return habitRepository.save(habitEntity);
+        log.info("Saving updated habit entity: {}", habitEntity);
+        HabitEntity updatedHabit = habitRepository.save(habitEntity);
+        log.info("Updated habit with ID: {}", updatedHabit.getId());
+
+        return updatedHabit;
     }
 
     public void deleteHabit(Long id) {
@@ -88,13 +89,13 @@ public class HabitService {
 
     public HabitCompletion markCompletion(Long habitId, LocalDate date, boolean completed) {
         log.info("Marking completion for habit {} on date {} with completed={}", habitId, date, completed);
-        
+
         HabitEntity habit = habitRepository.findById(habitId)
                 .orElseThrow(EntityNotFoundException::new);
 
         Optional<HabitCompletion> existingCompletion =  habitCompletionRepository.findByHabitIdAndCompletionDate(habitId, date);
         HabitCompletion result;
-        
+
         if(existingCompletion.isPresent()) {
             HabitCompletion completion = existingCompletion.get();
             completion.setCompleted(completed);
@@ -106,7 +107,7 @@ public class HabitService {
             newCompletion.setCompleted(completed);
             result = habitCompletionRepository.save(newCompletion);
         }
-        
+
         log.info("Marked completion result: {}", result);
         return result;
     }
